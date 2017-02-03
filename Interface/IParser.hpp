@@ -18,24 +18,24 @@ namespace nts
 {
   enum class ASTNodeType : int
   {
-    DEFAULT = -1,
+      DEFAULT = -1,
       NEWLINE = 0,
       SECTION,
       COMPONENT,
       LINK,
       LINK_END,
       STRING
-      };
+  };
 
   typedef struct	s_ast_node
   {
     s_ast_node(std::vector<struct s_ast_node*> *children) : children(children) {}
 
-    std::string				lexeme;
-    ASTNodeType				type;
-    std::string				value;
+    std::string lexeme;
+    ASTNodeType	type;
+    std::string	value;
     std::vector<struct s_ast_node*>	*children;
-  }					t_ast_node;
+  }	t_ast_node;
 
   class	IParser
   {
