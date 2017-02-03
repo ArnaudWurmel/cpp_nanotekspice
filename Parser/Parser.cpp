@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 13:25:47 2017 Arnaud WURMEL
-// Last update Fri Feb  3 14:32:38 2017 Arnaud WURMEL
+// Last update Fri Feb  3 22:21:06 2017 Arnaud WURMEL
 //
 
 #include <string>
@@ -29,10 +29,10 @@ void	Parser::feed(std::string const& input)
 
 void	Parser::parseTree(nts::t_ast_node& root)
 {
-
+  (void)root;
 }
 
 nts::t_ast_node	*Parser::createTree()
 {
-  nts::t_ast_node	*root;
+  return (NULL);
 }

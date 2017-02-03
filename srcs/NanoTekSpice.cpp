@@ -5,9 +5,10 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:24 2017 Arnaud WURMEL
-// Last update Fri Feb  3 21:04:13 2017 Arnaud WURMEL
+// Last update Fri Feb  3 22:26:36 2017 Arnaud WURMEL
 //
 
+#include <algorithm>
 #include <iostream>
 #include <map>
 #include "NanoTekSpice.hpp"
@@ -35,6 +36,32 @@ nts::NanoTekSpice::~NanoTekSpice()
 }
 
 /*
+** Execute command from input, may be call from main (with argv)
+** or from nts::NanoTekSpice::start function
+**
+** Return value :
+** - Command successfully found (and executed) true
+** - Command not found false
+** This function don't print error message, must be handle from caller's functions
+**
+** NB: input must be epured (' ', '\t')
+*/
+bool	nts::NanoTekSpice::executeAction(std::string const& input)
+{
+  if (_action[input])
+    {
+      (this->*_action[input])();
+      return (true);
+    }
+  else if (isInputConfiguration(input))
+    {
+      this->setInputValue(input);
+      return (true);
+    }
+  return (false);
+}
+
+/*
 ** Call from main, loop for program
 ** It show a prompt and execute user instruction
 */
@@ -48,10 +75,8 @@ void		nts::NanoTekSpice::start()
       if (!getline(std::cin, input))
 	return;
       Helper::epurStr(input);
-      if (_action[input])
-	(this->*_action[input])();
-      else
-	std::cerr << "Action not found" << std::endl;
+      if (!this->executeAction(input))
+	std::cerr << input <<  ": eval error" << std::endl;  
     }
 }
 
@@ -94,4 +119,28 @@ void	nts::NanoTekSpice::exit()
 void	nts::NanoTekSpice::display()
 {
   std::cout << "Display function: NOT IMPLEMENTED YET" << std::endl;
+}
+
+/*
+** Call when user type a command like myval=X
+** This function print error message if :
+** - myval don't exist
+** - X isn't a number
+*/
+void	nts::NanoTekSpice::setInputValue(std::string const& input)
+{
+  (void)input;
+  std::cout << "Set function: NOT IMPLEMENTED YET" << std::endl;
+}
+
+/*
+** Check line format : %s=%s
+*/
+bool	nts::NanoTekSpice::isInputConfiguration(std::string const& input)
+{
+  std::size_t	equal_pos;
+
+  if ((equal_pos = input.find("=")) != std::string::npos)
+    return (true);
+  return (false);
 }
