@@ -5,13 +5,14 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Wed Feb  8 18:52:24 2017 Arnaud WURMEL
-// Last update Wed Feb  8 19:07:41 2017 Arnaud WURMEL
+// Last update Wed Feb  8 22:31:49 2017 Arnaud WURMEL
 //
 
 #ifndef ERRORS_HPP_
 # define ERRORS_HPP_
 
 # define DEF_OUTSIDE "Invalid definition outside of section"
+# define SECTION_ERROR "Invalid number of section / name"
 
 class	Errors : virtual public std::exception
 {

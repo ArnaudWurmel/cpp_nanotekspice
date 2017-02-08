@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 13:25:47 2017 Arnaud WURMEL
-// Last update Wed Feb  8 20:05:13 2017 Arnaud WURMEL
+// Last update Wed Feb  8 23:42:56 2017 Arnaud WURMEL
 //
 
 #include <string>
@@ -20,6 +20,22 @@
 Parser::Parser()
 {
   _input = "";
+  _chipset["input"] = true;
+  _chipset["output"] = true;
+  _chipset["4001"] = true;
+  _chipset["4008"] = true;
+  _chipset["4011"] = true;
+  _chipset["4013"] = true;
+  _chipset["4017"] = true;
+  _chipset["4030"] = true;
+  _chipset["4040"] = true;
+  _chipset["4069"] = true;
+  _chipset["4071"] = true;
+  _chipset["4081"] = true;
+  _chipset["4094"] = true;
+  _chipset["4514"] = true;
+  _chipset["4801"] = true;
+  _chipset["2716"] = true;
 }
 
 Parser::~Parser()
@@ -36,9 +52,9 @@ void	Parser::feed(std::string const& input)
 }
 
 /*
-** Check tree syntax, raise a error else
+** Regroup different section together, throw a Errors if failed
 */
-void		Parser::parseTree(nts::t_ast_node& root)
+void	Parser::regroupSection(nts::t_ast_node& root)
 {
   std::vector<nts::t_ast_node *>::iterator	it;
   std::vector<nts::t_ast_node *>::iterator	tmp;
@@ -55,7 +71,8 @@ void		Parser::parseTree(nts::t_ast_node& root)
 	{
 	  if ((*it)->value == (*tmp)->value)
 	    {
-	      (*it)->children->insert((*it)->children->end(), (*tmp)->children->begin(), (*tmp)->children->end());
+	      (*it)->children->insert((*it)->children->end(), (*tmp)->children->begin(),
+				      (*tmp)->children->end());
 	      root.children->erase(tmp);
 	    }
 	  else
@@ -63,8 +80,68 @@ void		Parser::parseTree(nts::t_ast_node& root)
 	}
       ++it;
     }
+  if (root.children->size() == 2)
+    {
+      if (((*root.children->begin())->value.compare(LINK_SECTION) == 0 &&
+	   (*root.children->end())->value.compare(CHIPSET_SECTION) == 0) ||
+	  ((*root.children->begin())->value.compare(CHIPSET_SECTION) == 0 &&
+	   (*root.children->end())->value.compare(LINK_SECTION) == 0))
+	{
+	  return ;
+	}
+    }
+  throw Errors(SECTION_ERROR);
 }
 
+/*
+** Create component from root (input, etc...)
+** Transform STRING into COMPONENT type
+** Throw a error if syntax failed
+*/
+void	Parser::createChipset(nts::t_ast_node& chipset)
+{
+  std::vector<nts::t_ast_node *>::iterator	it;
+
+  it = chipset.children->begin();
+  while (it != chipset.children->end())
+    {
+      (*it)->type = nts::ASTNodeType::COMPONENT;
+      for (std::string::iterator i = (*it)->value.begin(); i != (*it)->value.end() && *i != ' '; i++)
+	{
+	  (*it)->lexeme += *i;
+	}
+      if ((*it)->lexeme.size() + 1 >= (*it)->value.size())
+	throw Errors("Chipset error KEYWORD name");
+      (*it)->value = (*it)->value.substr((*it)->lexeme.size() + 1, (*it)->value.size());
+      if (_chipset[(*it)->lexeme] != true)
+	throw Errors("Unkwown keyword in chipset");
+      ++it;
+    }
+}
+
+/*
+** Create link from root
+** Transform String into LINK / LINK_END type
+** Throw a error if syntax failed
+*/
+void	Parser::createLink(nts::t_ast_node& link)
+{
+  
+} 
+
+/*
+** Check tree syntax, raise a error else
+*/
+void	Parser::parseTree(nts::t_ast_node& root)
+{
+  regroupSection(root);
+  if ((*root.children->begin())->value.compare(CHIPSET_SECTION) == 0)
+    createChipset(*(*root.children->begin()));
+}
+
+/*
+** Delete comment of string started by '#' and finished by '\0'
+*/
 void	Parser::RemoveCommentaryFromInput(std::string& input)
 {
   std::string::iterator	it;

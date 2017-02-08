@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Jan 27 19:12:02 2017 Arnaud WURMEL
-// Last update Wed Feb  8 20:12:20 2017 Arnaud WURMEL
+// Last update Wed Feb  8 22:35:19 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -28,10 +28,10 @@ void	delete_tree(nts::t_ast_node *node)
       it = node->children->begin();
       while (it != node->children->end())
 	{
-	  delete (*it);
+	  delete_tree(*it);
 	  ++it;
 	}
-      //      delete node->children;
+      delete node->children;
     }
   delete node;
 }
@@ -57,7 +57,7 @@ void	show_node(nts::t_ast_node *node)
     }
 }
 
-void		openFile(char *filepath)
+bool		openFile(char *filepath)
 {
   std::ifstream	file;
   std::stringstream	ss;
@@ -80,8 +80,12 @@ void		openFile(char *filepath)
       catch (std::exception& e)
 	{
 	  std::cout << e.what() << std::endl;
+	  return false;
 	}
     }
+  else
+    return false;
+  return true;
 }
 
 int	main(int ac, char **av)
@@ -95,7 +99,8 @@ int	main(int ac, char **av)
       return 1;
     }
   root = new nts::NanoTekSpice();
-  openFile(av[1]);
+  if (openFile(av[1]) == false)
+    return 1;
   root->start();
   delete root;
   return 0;
