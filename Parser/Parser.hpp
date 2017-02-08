@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 13:12:08 2017 Arnaud WURMEL
-// Last update Fri Feb  3 14:29:50 2017 Arnaud WURMEL
+// Last update Wed Feb  8 11:40:16 2017 Arnaud WURMEL
 //
 
 #ifndef PARSER_HPP_
@@ -22,11 +22,18 @@ public:
   void			parseTree(nts::t_ast_node& root);
   nts::t_ast_node	*createTree();
 
+public:
+  nts::t_ast_node	*getLink() const;
+
 private:
   Parser(Parser const&);
 
 private:
-  std::string	_toParse;
+  std::string const&	getFeed();
+
+private:
+  std::string	_input;
+  std::map<std::string, nts::ASTNodeType>	_possible_type;
 };
 
 #endif /* !PARSER_HPP_ */

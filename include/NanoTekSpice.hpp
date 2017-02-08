@@ -5,11 +5,14 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:22 2017 Arnaud WURMEL
-// Last update Fri Feb  3 22:22:16 2017 Arnaud WURMEL
+// Last update Tue Feb  7 11:07:46 2017 Arnaud WURMEL
 //
 
 #ifndef NANOTEKSPICE_HPP_
 # define NANOTEKSPICE_HPP_
+
+# define NOT_FOUND ": Command not found"
+# define SYNTAXE_ERROR ": Syntax error"
 
 namespace nts
 {
