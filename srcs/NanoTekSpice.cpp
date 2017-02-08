@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:24 2017 Arnaud WURMEL
-// Last update Tue Feb  7 11:08:17 2017 Arnaud WURMEL
+// Last update Wed Feb  8 17:24:05 2017 Arnaud WURMEL
 //
 
 #include <algorithm>
@@ -75,8 +75,11 @@ void		nts::NanoTekSpice::start()
       if (!getline(std::cin, input))
 	return;
       Helper::epurStr(input);
-      if (!this->executeAction(input))
-	std::cerr << input << NOT_FOUND << std::endl;  
+      if (input.empty() == false)
+	{
+	  if (!this->executeAction(input))
+	    std::cerr << input << NOT_FOUND << std::endl;
+	}
     }
 }
 

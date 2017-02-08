@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Jan 27 19:12:02 2017 Arnaud WURMEL
-// Last update Wed Feb  8 12:27:39 2017 Arnaud WURMEL
+// Last update Wed Feb  8 20:12:20 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -13,15 +13,55 @@
 #include <map>
 #include <string>
 #include <sstream>
+#include <vector>
+#include "Errors.hpp"
 #include "IParser.hpp"
 #include "Parser.hpp"
 #include "NanoTekSpice.hpp"
+
+void	delete_tree(nts::t_ast_node *node)
+{
+  std::vector<nts::t_ast_node *>::iterator	it;
+
+  if (node->children)
+    {
+      it = node->children->begin();
+      while (it != node->children->end())
+	{
+	  delete (*it);
+	  ++it;
+	}
+      //      delete node->children;
+    }
+  delete node;
+}
+
+void	show_node(nts::t_ast_node *node)
+{
+  std::vector<nts::t_ast_node *>::iterator	it;
+
+  if (!node)
+    return ;
+  if (node->type == nts::ASTNodeType::SECTION)
+    std::cout << "====" << std::endl << "Under section : " << node->value << std::endl;
+  else if (node->type != nts::ASTNodeType::DEFAULT)
+    std::cout << node->value << std::endl;
+  if (node->children)
+    {
+      it = node->children->begin();
+      while (it != node->children->end())
+	{
+	  show_node(*it);
+	  ++it;
+	}
+    }
+}
 
 void		openFile(char *filepath)
 {
   std::ifstream	file;
   std::stringstream	ss;
-  
+  nts::t_ast_node	*node;  
   Parser	parser;
 
   file.open(filepath);
@@ -29,7 +69,18 @@ void		openFile(char *filepath)
     {
       ss << file.rdbuf();
       parser.feed(ss.str());
-      parser.createTree();
+      try
+	{
+	  node = parser.createTree();
+	  show_node(node);
+	  parser.parseTree(*node);
+	  show_node(node);
+	  delete_tree(node);
+	}
+      catch (std::exception& e)
+	{
+	  std::cout << e.what() << std::endl;
+	}
     }
 }
 

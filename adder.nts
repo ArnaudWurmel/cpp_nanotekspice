@@ -42,3 +42,6 @@ o2:1		adder:12
 o3:1		adder:13
 
 cout:1		adder:14
+
+.links:
+a0:8		adder:039

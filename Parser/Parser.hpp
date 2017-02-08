@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 13:12:08 2017 Arnaud WURMEL
-// Last update Wed Feb  8 11:40:16 2017 Arnaud WURMEL
+// Last update Wed Feb  8 18:36:58 2017 Arnaud WURMEL
 //
 
 #ifndef PARSER_HPP_
@@ -23,7 +23,7 @@ public:
   nts::t_ast_node	*createTree();
 
 public:
-  nts::t_ast_node	*getLink() const;
+  static void		RemoveCommentaryFromInput(std::string&);
 
 private:
   Parser(Parser const&);

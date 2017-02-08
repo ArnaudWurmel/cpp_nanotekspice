@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:52:50 2017 Arnaud WURMEL
-// Last update Fri Feb  3 19:29:24 2017 Arnaud WURMEL
+// Last update Wed Feb  8 17:23:26 2017 Arnaud WURMEL
 //
 
 #include <string>
@@ -35,6 +35,8 @@ void		Helper::epurStr(std::string& str)
     {
       if ((*it == ' ' || *it == '\t') && one_space == false && isCharacterAfter(it, str.end()))
 	{
+	  if (*it == '\t')
+	    *it = ' ';
 	  ++it;
 	  one_space = true;
 	}
