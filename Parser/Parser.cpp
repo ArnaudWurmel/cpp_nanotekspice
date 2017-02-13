@@ -5,18 +5,22 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 13:25:47 2017 Arnaud WURMEL
-// Last update Wed Feb  8 23:42:56 2017 Arnaud WURMEL
+// Last update Mon Feb 13 19:00:10 2017 Arnaud WURMEL
 //
 
 #include <string>
 #include <iostream>
 #include <sstream>
 #include <map>
+#include <algorithm>
 #include "IParser.hpp"
 #include "Parser.hpp"
 #include "Helper.hpp"
 #include "Errors.hpp"
 
+/*
+** Ctor
+*/
 Parser::Parser()
 {
   _input = "";
@@ -38,6 +42,9 @@ Parser::Parser()
   _chipset["2716"] = true;
 }
 
+/*
+** Dtor
+*/
 Parser::~Parser()
 {
 
@@ -54,7 +61,7 @@ void	Parser::feed(std::string const& input)
 /*
 ** Regroup different section together, throw a Errors if failed
 */
-void	Parser::regroupSection(nts::t_ast_node& root)
+void	Parser::regroupSection(nts::t_ast_node& root) const
 {
   std::vector<nts::t_ast_node *>::iterator	it;
   std::vector<nts::t_ast_node *>::iterator	tmp;
@@ -69,11 +76,11 @@ void	Parser::regroupSection(nts::t_ast_node& root)
       ++tmp;
       while (tmp != root.children->end())
 	{
-	  if ((*it)->value == (*tmp)->value)
+	  if ((*it)->value.compare((*tmp)->value) == 0)
 	    {
 	      (*it)->children->insert((*it)->children->end(), (*tmp)->children->begin(),
 				      (*tmp)->children->end());
-	      root.children->erase(tmp);
+	      tmp = root.children->erase(tmp);
 	    }
 	  else
 	    ++tmp;
@@ -82,10 +89,10 @@ void	Parser::regroupSection(nts::t_ast_node& root)
     }
   if (root.children->size() == 2)
     {
-      if (((*root.children->begin())->value.compare(LINK_SECTION) == 0 &&
-	   (*root.children->end())->value.compare(CHIPSET_SECTION) == 0) ||
-	  ((*root.children->begin())->value.compare(CHIPSET_SECTION) == 0 &&
-	   (*root.children->end())->value.compare(LINK_SECTION) == 0))
+      if (((*root.children)[0]->value.compare(LINK_SECTION) == 0 &&
+	   ((*root.children)[1])->value.compare(CHIPSET_SECTION) == 0) ||
+	  (((*root.children)[0])->value.compare(CHIPSET_SECTION) == 0 &&
+	   ((*root.children)[1])->value.compare(LINK_SECTION) == 0))
 	{
 	  return ;
 	}
@@ -105,17 +112,18 @@ void	Parser::createChipset(nts::t_ast_node& chipset)
   it = chipset.children->begin();
   while (it != chipset.children->end())
     {
-      (*it)->type = nts::ASTNodeType::COMPONENT;
-      for (std::string::iterator i = (*it)->value.begin(); i != (*it)->value.end() && *i != ' '; i++)
-	{
-	  (*it)->lexeme += *i;
-	}
-      if ((*it)->lexeme.size() + 1 >= (*it)->value.size())
-	throw Errors("Chipset error KEYWORD name");
-      (*it)->value = (*it)->value.substr((*it)->lexeme.size() + 1, (*it)->value.size());
       if (_chipset[(*it)->lexeme] != true)
 	throw Errors("Unkwown keyword in chipset");
-      ++it;
+      if ((*it)->lexeme == "input")
+	{
+	  if (checkInput(*(*it)) == false)
+	    throw Errors("Wrong input parameters");
+	}
+      else
+	{
+	  if (checkComponent(*(*it)) == false)
+	    throw Errors("Wrong component parameters");
+	}
     }
 }
 
@@ -124,9 +132,16 @@ void	Parser::createChipset(nts::t_ast_node& chipset)
 ** Transform String into LINK / LINK_END type
 ** Throw a error if syntax failed
 */
-void	Parser::createLink(nts::t_ast_node& link)
+void	Parser::createLink(nts::t_ast_node& link) const
 {
-  
+  std::vector<nts::t_ast_node *>::iterator	it;
+
+  it = link.children->begin();
+  while (it != link.children->end())
+    {
+      (*it)->type = nts::ASTNodeType::LINK;
+      ++it;
+    }
 } 
 
 /*
@@ -136,7 +151,15 @@ void	Parser::parseTree(nts::t_ast_node& root)
 {
   regroupSection(root);
   if ((*root.children->begin())->value.compare(CHIPSET_SECTION) == 0)
-    createChipset(*(*root.children->begin()));
+    {
+      createChipset(*(*root.children->begin()));
+      createLink(*(*root.children)[1]);
+    }
+  /*
+  else
+    {
+
+    }*/
 }
 
 /*
@@ -157,13 +180,70 @@ void	Parser::RemoveCommentaryFromInput(std::string& input)
 }
 
 /*
+** Eval expr of type : COMPONENT(%d)
+*/
+void			Parser::checkParenthesis(nts::t_ast_node *child) const
+{
+  size_t		pos;
+  size_t		tmp;
+
+  pos = std::string::npos;
+  tmp = -1;
+  while ((tmp = child->lexeme.find("(", tmp + 1)) != std::string::npos)
+    pos = tmp;
+  if (pos != std::string::npos)
+    {
+      child->value = child->lexeme.substr(pos);
+      child->lexeme.erase(pos);
+    }
+}
+
+void	Parser::createLine(nts::t_ast_node *root, std::string line) const
+{
+  nts::t_ast_node	*child;
+  nts::t_ast_node	*contain;
+  std::string::iterator	it;
+  int			i;
+
+  i = 0;
+  it = line.begin();
+  contain = NULL;
+  while (it != line.end())
+    {
+      if (i == 0)
+	child = new nts::t_ast_node(new std::vector<nts::t_ast_node *>());
+      else
+	child = new nts::t_ast_node(NULL);
+      child->type = nts::ASTNodeType::STRING;
+      while (it != line.end() && *it != ' ')
+	{
+	  child->lexeme += *it;
+	  ++it;
+	}
+      checkParenthesis(child);
+      if (contain)
+	contain->children->push_back(child);
+      else
+	{
+	  root->children->push_back(child);
+	  contain = child;
+	}
+      while (it != line.end() && *it == ' ')
+	++it;
+      ++i;
+    }
+  child = new nts::t_ast_node(NULL);
+  child->type = nts::ASTNodeType::NEWLINE;
+  root->children->push_back(child);
+}
+
+/*
 ** Return parsing tree
 */
 nts::t_ast_node	*Parser::createTree()
 {
   nts::t_ast_node	*root;
   nts::t_ast_node	*last_section;
-  nts::t_ast_node	*child;
   std::stringstream	stream(getFeed());
   std::string		line;
 
@@ -184,13 +264,10 @@ nts::t_ast_node	*Parser::createTree()
 	}
       else if (!line.empty())
 	{
-	  child = new nts::t_ast_node(NULL);
-	  child->type = nts::ASTNodeType::STRING;
-	  child->value = line;
 	  if (last_section)
-	    last_section->children->push_back(child);
+	    createLine(last_section, line);
 	  else
-	    root->children->push_back(child);
+	    createLine(root, line);
 	}
     }
   return (root);
@@ -202,4 +279,48 @@ nts::t_ast_node	*Parser::createTree()
 std::string const&	Parser::getFeed()
 {
   return (_input);
+}
+
+/*
+** Check input parameters
+*/
+bool	Parser::checkInput(nts::t_ast_node const& node) const
+{
+  std::vector<nts::t_ast_node *>::const_iterator	it;
+
+  std::cout << node.lexeme << std::endl;
+  if (node.children == NULL)
+    return false;
+  it = node.children->begin();
+  while (it != node.children->end())
+    {
+      std::cout << (*it)->lexeme << std::endl;
+      std::cout << (int)(*it)->type << std::endl;
+      if ((*it)->type == nts::ASTNodeType::NEWLINE)
+	break ;
+      if ((*it)->type != nts::ASTNodeType::STRING)
+	{
+	  std::cout << (*it)->lexeme << std::endl;
+	  return false;
+	}
+      ++it;
+    }
+  std::cout << node.children->size() << std::endl;
+  return node.children->size() == 2;
+}
+
+/*
+** Check component parameters
+*/
+bool	Parser::checkComponent(nts::t_ast_node const& node) const
+{
+  return true;
+}
+
+/*
+** Check link parameters %s:%d -> %s:%d
+*/
+bool	Parser::checkLink(nts::t_ast_node const *node) const
+{
+
 }

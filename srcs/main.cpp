@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Jan 27 19:12:02 2017 Arnaud WURMEL
-// Last update Wed Feb  8 22:35:19 2017 Arnaud WURMEL
+// Last update Thu Feb  9 20:38:49 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -45,7 +45,9 @@ void	show_node(nts::t_ast_node *node)
   if (node->type == nts::ASTNodeType::SECTION)
     std::cout << "====" << std::endl << "Under section : " << node->value << std::endl;
   else if (node->type != nts::ASTNodeType::DEFAULT)
-    std::cout << node->value << std::endl;
+    {
+      std::cout << (int)node->type << ": " << node->lexeme << std::endl;
+    }
   if (node->children)
     {
       it = node->children->begin();
@@ -72,10 +74,10 @@ bool		openFile(char *filepath)
       try
 	{
 	  node = parser.createTree();
-	  show_node(node);
+	  //	  show_node(node);
 	  parser.parseTree(*node);
 	  show_node(node);
-	  delete_tree(node);
+	  /*delete_tree(node);*/
 	}
       catch (std::exception& e)
 	{
