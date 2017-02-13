@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 13:25:47 2017 Arnaud WURMEL
-// Last update Mon Feb 13 19:00:10 2017 Arnaud WURMEL
+// Last update Mon Feb 13 21:43:43 2017 Arnaud WURMEL
 //
 
 #include <string>
@@ -114,6 +114,7 @@ void	Parser::createChipset(nts::t_ast_node& chipset)
     {
       if (_chipset[(*it)->lexeme] != true)
 	throw Errors("Unkwown keyword in chipset");
+      (*it)->type = nts::ASTNodeType::COMPONENT;
       if ((*it)->lexeme == "input")
 	{
 	  if (checkInput(*(*it)) == false)
@@ -124,6 +125,7 @@ void	Parser::createChipset(nts::t_ast_node& chipset)
 	  if (checkComponent(*(*it)) == false)
 	    throw Errors("Wrong component parameters");
 	}
+      ++it;
     }
 }
 
@@ -140,6 +142,7 @@ void	Parser::createLink(nts::t_ast_node& link) const
   while (it != link.children->end())
     {
       (*it)->type = nts::ASTNodeType::LINK;
+      
       ++it;
     }
 } 
@@ -234,7 +237,10 @@ void	Parser::createLine(nts::t_ast_node *root, std::string line) const
     }
   child = new nts::t_ast_node(NULL);
   child->type = nts::ASTNodeType::NEWLINE;
-  root->children->push_back(child);
+    if (contain)
+      contain->children->push_back(child);
+    else
+      root->children->push_back(child);
 }
 
 /*
@@ -288,24 +294,17 @@ bool	Parser::checkInput(nts::t_ast_node const& node) const
 {
   std::vector<nts::t_ast_node *>::const_iterator	it;
 
-  std::cout << node.lexeme << std::endl;
   if (node.children == NULL)
     return false;
   it = node.children->begin();
   while (it != node.children->end())
     {
-      std::cout << (*it)->lexeme << std::endl;
-      std::cout << (int)(*it)->type << std::endl;
       if ((*it)->type == nts::ASTNodeType::NEWLINE)
 	break ;
       if ((*it)->type != nts::ASTNodeType::STRING)
-	{
-	  std::cout << (*it)->lexeme << std::endl;
-	  return false;
-	}
+	return false;
       ++it;
     }
-  std::cout << node.children->size() << std::endl;
   return node.children->size() == 2;
 }
 

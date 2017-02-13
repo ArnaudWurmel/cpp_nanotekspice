@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Jan 27 19:12:02 2017 Arnaud WURMEL
-// Last update Thu Feb  9 20:38:49 2017 Arnaud WURMEL
+// Last update Mon Feb 13 21:40:58 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -36,9 +36,10 @@ void	delete_tree(nts::t_ast_node *node)
   delete node;
 }
 
-void	show_node(nts::t_ast_node *node)
+void	show_node(nts::t_ast_node *node, int deep)
 {
   std::vector<nts::t_ast_node *>::iterator	it;
+  int						i;
 
   if (!node)
     return ;
@@ -46,6 +47,12 @@ void	show_node(nts::t_ast_node *node)
     std::cout << "====" << std::endl << "Under section : " << node->value << std::endl;
   else if (node->type != nts::ASTNodeType::DEFAULT)
     {
+      i = 0;
+      while (i < deep)
+	{
+	  std::cout << " ";
+	  ++i;
+	}
       std::cout << (int)node->type << ": " << node->lexeme << std::endl;
     }
   if (node->children)
@@ -53,7 +60,7 @@ void	show_node(nts::t_ast_node *node)
       it = node->children->begin();
       while (it != node->children->end())
 	{
-	  show_node(*it);
+	  show_node(*it, deep + 1);
 	  ++it;
 	}
     }
@@ -74,9 +81,9 @@ bool		openFile(char *filepath)
       try
 	{
 	  node = parser.createTree();
-	  //	  show_node(node);
+	  show_node(node, 0);
 	  parser.parseTree(*node);
-	  show_node(node);
+	  show_node(node, 0);
 	  /*delete_tree(node);*/
 	}
       catch (std::exception& e)
