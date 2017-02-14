@@ -5,7 +5,12 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Tue Feb 14 16:41:20 2017 Victorien Fischer
+// Last update Tue Feb 14 23:12:05 2017 Victorien Fischer
 //
 
-#include "4008.hpp"
+#include "c4008.hpp"
+
+nts::c4008::c4008(const std::string &value)
+{
+  (void)value;
+}
