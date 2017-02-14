@@ -5,12 +5,13 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:24 2017 Arnaud WURMEL
-// Last update Wed Feb  8 17:24:05 2017 Arnaud WURMEL
+// Last update Tue Feb 14 17:54:40 2017 Arnaud WURMEL
 //
 
 #include <algorithm>
 #include <iostream>
 #include <map>
+#include "IParser.hpp"
 #include "NanoTekSpice.hpp"
 #include "Helper.hpp"
 
@@ -146,4 +147,9 @@ bool	nts::NanoTekSpice::isInputConfiguration(std::string const& input)
   if ((equal_pos = input.find("=")) != std::string::npos)
     return (true);
   return (false);
+}
+
+void	nts::NanoTekSpice::setTree(nts::t_ast_node *node)
+{
+  _tree = node;
 }

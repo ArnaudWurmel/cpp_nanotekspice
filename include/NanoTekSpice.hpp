@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:22 2017 Arnaud WURMEL
-// Last update Tue Feb  7 11:07:46 2017 Arnaud WURMEL
+// Last update Tue Feb 14 17:55:09 2017 Arnaud WURMEL
 //
 
 #ifndef NANOTEKSPICE_HPP_
@@ -25,6 +25,7 @@ namespace nts
   public:
     void	start();
     bool	executeAction(std::string const&);
+    void	setTree(nts::t_ast_node *);
 
     /*
     ** Interpreted function from command line
@@ -41,6 +42,7 @@ namespace nts
   private:
     std::map<std::string, void(NanoTekSpice::*)()>	_action;
     bool						_continue;
+    nts::t_ast_node					*_tree;
   };
 }
   

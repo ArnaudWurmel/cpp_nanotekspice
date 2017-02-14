@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Jan 27 19:12:02 2017 Arnaud WURMEL
-// Last update Mon Feb 13 21:40:58 2017 Arnaud WURMEL
+// Last update Tue Feb 14 17:53:46 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -44,7 +44,7 @@ void	show_node(nts::t_ast_node *node, int deep)
   if (!node)
     return ;
   if (node->type == nts::ASTNodeType::SECTION)
-    std::cout << "====" << std::endl << "Under section : " << node->value << std::endl;
+    std::cout << "." << node->value << std::endl;
   else if (node->type != nts::ASTNodeType::DEFAULT)
     {
       i = 0;
@@ -66,13 +66,14 @@ void	show_node(nts::t_ast_node *node, int deep)
     }
 }
 
-bool		openFile(char *filepath)
+nts::t_ast_node	*openFile(char *filepath)
 {
   std::ifstream	file;
   std::stringstream	ss;
   nts::t_ast_node	*node;  
   Parser	parser;
 
+  node = NULL;
   file.open(filepath);
   if (file.is_open())
     {
@@ -81,25 +82,23 @@ bool		openFile(char *filepath)
       try
 	{
 	  node = parser.createTree();
-	  show_node(node, 0);
 	  parser.parseTree(*node);
-	  show_node(node, 0);
-	  /*delete_tree(node);*/
 	}
       catch (std::exception& e)
 	{
 	  std::cout << e.what() << std::endl;
-	  return false;
+	  return NULL;
 	}
     }
   else
-    return false;
-  return true;
+    return NULL;
+  return node;
 }
 
 int	main(int ac, char **av)
 {
   nts::NanoTekSpice	*root;
+  nts::t_ast_node	*node;
 
   (void)av;
   if (ac == 1)
@@ -108,7 +107,7 @@ int	main(int ac, char **av)
       return 1;
     }
   root = new nts::NanoTekSpice();
-  if (openFile(av[1]) == false)
+  if ((node = openFile(av[1])) == NULL)
     return 1;
   root->start();
   delete root;

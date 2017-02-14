@@ -18,8 +18,7 @@ output		o0
 output		o1
 output		o2
 output		o3
-
-.chipsets:
+output		cout
 
 4008	adder
 
@@ -41,8 +40,5 @@ o1:1		adder:11
 o2:1		adder:12
 o3:1		adder:13
 
-.chipsets:
-output		cout
 
-.links:
 cout:1		adder:14
