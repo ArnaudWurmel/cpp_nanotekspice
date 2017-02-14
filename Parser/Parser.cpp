@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 13:25:47 2017 Arnaud WURMEL
-// Last update Mon Feb 13 21:43:43 2017 Arnaud WURMEL
+// Last update Tue Feb 14 17:12:56 2017 Arnaud WURMEL
 //
 
 #include <string>
@@ -142,7 +142,8 @@ void	Parser::createLink(nts::t_ast_node& link) const
   while (it != link.children->end())
     {
       (*it)->type = nts::ASTNodeType::LINK;
-      
+      if (checkLink(*(*it)) == false)
+	throw Errors("Failed to eval link");
       ++it;
     }
 } 
@@ -313,13 +314,47 @@ bool	Parser::checkInput(nts::t_ast_node const& node) const
 */
 bool	Parser::checkComponent(nts::t_ast_node const& node) const
 {
-  return true;
+  if (node.value.empty())
+    {
+      return node.children && node.children->size() == 2;
+    }
+  else
+    throw Errors("Parsing error for () on component");
+  if (node.lexeme == "2716" && !node.value.empty())
+    {
+      throw Errors("Missing args for 2716");
+      return false;
+    }
+  return false;
+}
+
+bool	splitLink(nts::t_ast_node& node)
+{
+  size_t	pos;
+
+  pos = node.lexeme.find(":");
+  if (pos != std::string::npos)
+    {
+      node.value = node.lexeme.substr(pos);
+      node.lexeme.erase(pos);
+      return true;
+    }
+  return false;
 }
 
 /*
 ** Check link parameters %s:%d -> %s:%d
 */
-bool	Parser::checkLink(nts::t_ast_node const *node) const
+bool		Parser::checkLink(nts::t_ast_node& node) const
 {
-
+  if (splitLink(node) == false)
+    return false;
+  if (node.children && node.children->size() == 2)
+    {
+      if (splitLink(*(*node.children->begin())) == false)
+	return false;
+      (*node.children->begin())->type = nts::ASTNodeType::LINK_END;
+      return true;
+    }
+  return false;
 }

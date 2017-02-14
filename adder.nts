@@ -21,7 +21,7 @@ output		o3
 
 .chipsets:
 
-4008(20)	adder
+4008	adder
 
 .links:
 a0:1		adder:7
