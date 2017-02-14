@@ -5,11 +5,13 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 15:50:27 2017 Victorien Fischer
-// Last update Tue Feb 14 15:55:43 2017 Victorien Fischer
+// Last update Tue Feb 14 16:28:06 2017 Victorien Fischer
 //
 
 #ifndef __ICOMPONENT_HPP__
 # define __ICOMPONENT_HPP__
+
+#include <unistd.h>
 
 namespace	nts
 {
