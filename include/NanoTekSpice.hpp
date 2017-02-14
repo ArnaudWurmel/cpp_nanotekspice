@@ -5,14 +5,15 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:22 2017 Arnaud WURMEL
-// Last update Tue Feb 14 17:55:09 2017 Arnaud WURMEL
+// Last update Wed Feb 15 00:11:01 2017 Victorien Fischer
 //
 
 #ifndef NANOTEKSPICE_HPP_
 # define NANOTEKSPICE_HPP_
 
-# define NOT_FOUND ": Command not found"
-# define SYNTAXE_ERROR ": Syntax error"
+# define PROMPT		"> "
+# define NOT_FOUND	": Command not found"
+# define SYNTAXE_ERROR	": Syntax error"
 
 namespace nts
 {
@@ -43,7 +44,12 @@ namespace nts
     std::map<std::string, void(NanoTekSpice::*)()>	_action;
     bool						_continue;
     nts::t_ast_node					*_tree;
+
+  public:
+    static bool						_loop;
   };
 }
-  
+
+void	sigintLoop(int);
+
 #endif /* !NANOTEKSPICE_HPP_ */

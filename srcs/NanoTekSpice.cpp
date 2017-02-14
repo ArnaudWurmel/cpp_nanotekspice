@@ -5,15 +5,18 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:24 2017 Arnaud WURMEL
-// Last update Tue Feb 14 17:54:40 2017 Arnaud WURMEL
+// Last update Wed Feb 15 00:10:39 2017 Victorien Fischer
 //
 
-#include <algorithm>
-#include <iostream>
 #include <map>
+#include <csignal>
+#include <iostream>
+#include <algorithm>
+#include "Helper.hpp"
 #include "IParser.hpp"
 #include "NanoTekSpice.hpp"
-#include "Helper.hpp"
+
+bool nts::NanoTekSpice::_loop = false;
 
 /*
 ** Constructor, assign map function ptr
@@ -72,7 +75,7 @@ void		nts::NanoTekSpice::start()
 
   while (_continue)
     {
-      std::cout << "> ";
+      std::cout << PROMPT;
       if (!getline(std::cin, input))
 	return;
       Helper::epurStr(input);
@@ -97,7 +100,11 @@ void	nts::NanoTekSpice::simulate()
 */
 void	nts::NanoTekSpice::loop()
 {
-  std::cout << "Loop function: NOT IMPLEMENTED YET" << std::endl;
+  nts::NanoTekSpice::_loop = true;
+  std::signal(SIGINT, sigintLoop);
+  while (nts::NanoTekSpice::_loop)
+    simulate();
+  std::signal(SIGINT, SIG_DFL);
 }
 
 /*
@@ -152,4 +159,13 @@ bool	nts::NanoTekSpice::isInputConfiguration(std::string const& input)
 void	nts::NanoTekSpice::setTree(nts::t_ast_node *node)
 {
   _tree = node;
+}
+
+/*
+** Happens when SIGINT and shell is in loop
+*/
+void	sigintLoop(int sig)
+{
+  (void)sig;
+  nts::NanoTekSpice::_loop = false;
 }
