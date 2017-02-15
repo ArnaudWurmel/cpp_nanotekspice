@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 13:25:47 2017 Arnaud WURMEL
-// Last update Tue Feb 14 17:12:56 2017 Arnaud WURMEL
+// Last update Wed Feb 15 22:04:53 2017 Arnaud WURMEL
 //
 
 #include <string>
@@ -159,11 +159,12 @@ void	Parser::parseTree(nts::t_ast_node& root)
       createChipset(*(*root.children->begin()));
       createLink(*(*root.children)[1]);
     }
-  /*
+  
   else
     {
-
-    }*/
+      std::reverse(root.children->begin(), root.children->end());
+      parseTree(root);
+    }
 }
 
 /*

@@ -5,11 +5,13 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:22 2017 Arnaud WURMEL
-// Last update Wed Feb 15 14:21:10 2017 Arnaud WURMEL
+// Last update Wed Feb 15 22:06:51 2017 Arnaud WURMEL
 //
 
 #ifndef NANOTEKSPICE_HPP_
 # define NANOTEKSPICE_HPP_
+# include "IParser.hpp"
+# include "IComponent.hpp"
 
 # define PROMPT		"> "
 # define NOT_FOUND	": Command not found"
@@ -26,7 +28,13 @@ namespace nts
   public:
     void	start();
     bool	executeAction(std::string const&);
+
+    /*
+    ** Functions for create component from tree
+    */
+  public:
     void	setTree(nts::t_ast_node *);
+    void	createComponent(void);
 
     /*
     ** Interpreted function from command line
@@ -45,6 +53,8 @@ namespace nts
     std::map<std::string, void(NanoTekSpice::*)()>	_action;
     bool						_continue;
     nts::t_ast_node					*_tree;
+    std::vector<IComponent *>	*_comp;
+    std::vector<std::string>	*_name;
 
   public:
     static bool						_loop;

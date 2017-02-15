@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Jan 27 19:12:02 2017 Arnaud WURMEL
-// Last update Tue Feb 14 17:53:46 2017 Arnaud WURMEL
+// Last update Wed Feb 15 21:09:28 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -18,53 +18,6 @@
 #include "IParser.hpp"
 #include "Parser.hpp"
 #include "NanoTekSpice.hpp"
-
-void	delete_tree(nts::t_ast_node *node)
-{
-  std::vector<nts::t_ast_node *>::iterator	it;
-
-  if (node->children)
-    {
-      it = node->children->begin();
-      while (it != node->children->end())
-	{
-	  delete_tree(*it);
-	  ++it;
-	}
-      delete node->children;
-    }
-  delete node;
-}
-
-void	show_node(nts::t_ast_node *node, int deep)
-{
-  std::vector<nts::t_ast_node *>::iterator	it;
-  int						i;
-
-  if (!node)
-    return ;
-  if (node->type == nts::ASTNodeType::SECTION)
-    std::cout << "." << node->value << std::endl;
-  else if (node->type != nts::ASTNodeType::DEFAULT)
-    {
-      i = 0;
-      while (i < deep)
-	{
-	  std::cout << " ";
-	  ++i;
-	}
-      std::cout << (int)node->type << ": " << node->lexeme << std::endl;
-    }
-  if (node->children)
-    {
-      it = node->children->begin();
-      while (it != node->children->end())
-	{
-	  show_node(*it, deep + 1);
-	  ++it;
-	}
-    }
-}
 
 nts::t_ast_node	*openFile(char *filepath)
 {
@@ -109,6 +62,7 @@ int	main(int ac, char **av)
   root = new nts::NanoTekSpice();
   if ((node = openFile(av[1])) == NULL)
     return 1;
+  root->setTree(node);
   root->start();
   delete root;
   return 0;

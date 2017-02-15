@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 13:12:08 2017 Arnaud WURMEL
-// Last update Tue Feb 14 17:07:16 2017 Arnaud WURMEL
+// Last update Wed Feb 15 21:14:43 2017 Arnaud WURMEL
 //
 
 #ifndef PARSER_HPP_
@@ -50,7 +50,7 @@ public:
 public:
   bool			checkLink(nts::t_ast_node&) const;
   bool			checkInput(nts::t_ast_node const&) const;
-  bool			checkComponent(nts::t_ast_node const &) const;			
+  bool			checkComponent(nts::t_ast_node const &) const;
 
 private:
   Parser(Parser const&);

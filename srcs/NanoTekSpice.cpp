@@ -5,24 +5,27 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:24 2017 Arnaud WURMEL
-// Last update Wed Feb 15 14:22:12 2017 Arnaud WURMEL
+// Last update Wed Feb 15 23:02:48 2017 Arnaud WURMEL
 //
 
 #include <map>
 #include <csignal>
+#include <vector>
 #include <iostream>
 #include <algorithm>
 #include "Helper.hpp"
 #include "IParser.hpp"
 #include "NanoTekSpice.hpp"
+#include "ComponentFactory.hpp"
 
 bool nts::NanoTekSpice::_loop = false;
 
 /*
 ** Constructor, assign map function ptr
 */
-nts::NanoTekSpice::NanoTekSpice()
+nts::NanoTekSpice::NanoTekSpice() : _comp(0), _name(0)
 {
+  _tree = NULL;
   _continue = true;
   _action["exit"] = &nts::NanoTekSpice::exit;
   _action["simulate"] = &nts::NanoTekSpice::simulate;
@@ -32,11 +35,15 @@ nts::NanoTekSpice::NanoTekSpice()
 }
 
 /*
-** Destructor: TODO
+** Destructor
 */
 nts::NanoTekSpice::~NanoTekSpice()
 {
-
+  if (_tree)
+    {
+      Helper::delete_tree(_tree);
+      _tree = NULL;
+    }
 }
 
 /*
@@ -168,4 +175,31 @@ void	nts::NanoTekSpice::sigintLoop(int sig)
 {
   (void)sig;
   nts::NanoTekSpice::_loop = false;
+}
+
+/*
+** Parse tree
+*/
+void	nts::NanoTekSpice::createComponent(void)
+{
+  nts::t_ast_node	*chipset;
+  std::vector<nts::t_ast_node *>::iterator	it;
+  nts::ComponentFactory	componentFactory;
+
+  if (!_tree)
+    return ;
+  if (!_comp)
+    _comp = new std::vector<IComponent *>();
+  if (!_name)
+    _name = new std::vector<std::string>();
+  _comp->clear();
+  _name->clear();
+  chipset = *_tree->children->begin();
+  it = chipset->children->begin();
+  while (it != chipset->children->end())
+    {
+      _comp->push_back(componentFactory.createComponent((*it)->lexeme, (*it)->value));
+      _name->push_back((*(*it)->children->begin())->lexeme);
+      ++it;
+    }
 }

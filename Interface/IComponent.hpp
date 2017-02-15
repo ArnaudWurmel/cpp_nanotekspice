@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 15:50:27 2017 Victorien Fischer
-// Last update Tue Feb 14 16:28:06 2017 Victorien Fischer
+// Last update Wed Feb 15 21:06:46 2017 Arnaud WURMEL
 //
 
 #ifndef __ICOMPONENT_HPP__
@@ -30,7 +30,7 @@ namespace	nts
 					nts::IComponent &component,
 					size_t pin_num_target) = 0;
     virtual void		Dump(void) const = 0;
-    virtual			~IComponent(void) { }
+    virtual			~IComponent(void) {}
   };
 }
 

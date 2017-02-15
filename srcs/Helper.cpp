@@ -5,10 +5,11 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:52:50 2017 Arnaud WURMEL
-// Last update Wed Feb  8 17:23:26 2017 Arnaud WURMEL
+// Last update Wed Feb 15 21:15:27 2017 Arnaud WURMEL
 //
 
 #include <string>
+#include "IParser.hpp"
 #include "Helper.hpp"
 
 static bool	isCharacterAfter(std::string::iterator it, std::string::iterator const& end)
@@ -50,4 +51,24 @@ void		Helper::epurStr(std::string& str)
     }
   if (*it == ' ' || *it == '\t')
     str.erase(it);
+}
+
+/*
+** Static func to free the whole tree
+*/
+void	Helper::delete_tree(nts::t_ast_node *node)
+{
+  std::vector<nts::t_ast_node *>::iterator	it;
+
+  if (node->children)
+    {
+      it = node->children->begin();
+      while (it != node->children->end())
+	{
+	  delete_tree(*it);
+	  ++it;
+	}
+      delete node->children;
+    }
+  delete node;
 }
