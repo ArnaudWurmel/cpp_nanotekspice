@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:22 2017 Arnaud WURMEL
-// Last update Wed Feb 15 22:06:51 2017 Arnaud WURMEL
+// Last update Wed Feb 15 23:27:20 2017 Arnaud WURMEL
 //
 
 #ifndef NANOTEKSPICE_HPP_
@@ -35,6 +35,7 @@ namespace nts
   public:
     void	setTree(nts::t_ast_node *);
     void	createComponent(void);
+    nts::IComponent	*getComponentByName(std::string const&);
 
     /*
     ** Interpreted function from command line

@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:24 2017 Arnaud WURMEL
-// Last update Wed Feb 15 23:02:48 2017 Arnaud WURMEL
+// Last update Thu Feb 16 00:07:29 2017 Arnaud WURMEL
 //
 
 #include <map>
@@ -17,6 +17,8 @@
 #include "IParser.hpp"
 #include "NanoTekSpice.hpp"
 #include "ComponentFactory.hpp"
+#include "IComponent.hpp"
+#include "Errors.hpp"
 
 bool nts::NanoTekSpice::_loop = false;
 
@@ -44,6 +46,12 @@ nts::NanoTekSpice::~NanoTekSpice()
       Helper::delete_tree(_tree);
       _tree = NULL;
     }
+  if (_comp)
+    delete _comp;
+  if (_name)
+    delete _name;
+  _comp = NULL;
+  _name = NULL;
 }
 
 /*
@@ -177,14 +185,32 @@ void	nts::NanoTekSpice::sigintLoop(int sig)
   nts::NanoTekSpice::_loop = false;
 }
 
+nts::IComponent	*nts::NanoTekSpice::getComponentByName(std::string const& name)
+{
+  size_t	i;
+
+  i = 0;
+  while (i < _name->size())
+    {
+      if ((*_name)[i].compare(name) == 0)
+	return ((*_comp)[i]);
+      ++i;
+    }
+  return (NULL);
+}
+
 /*
 ** Parse tree
 */
 void	nts::NanoTekSpice::createComponent(void)
 {
   nts::t_ast_node	*chipset;
+  nts::t_ast_node	*links;
   std::vector<nts::t_ast_node *>::iterator	it;
   nts::ComponentFactory	componentFactory;
+  nts::IComponent	*link_start;
+  nts::IComponent	*link_end;
+  nts::t_ast_node	*children;
 
   if (!_tree)
     return ;
@@ -200,6 +226,18 @@ void	nts::NanoTekSpice::createComponent(void)
     {
       _comp->push_back(componentFactory.createComponent((*it)->lexeme, (*it)->value));
       _name->push_back((*(*it)->children->begin())->lexeme);
+      ++it;
+    }
+  links = (*_tree->children)[1];
+  it = links->children->begin();
+  while (it != links->children->end())
+    {
+      children = *((*it)->children->begin());
+      if ((link_start = getComponentByName((*it)->lexeme)) == NULL)
+	throw Errors("Unknown name for link_start");
+      if ((link_end = getComponentByName(children->lexeme)) == NULL)
+	throw Errors("Unknown name for link_end");
+      link_start->SetLink(std::stoi((*it)->value, nullptr, 0), *link_end, std::stoi(children->value, nullptr, 0));
       ++it;
     }
 }

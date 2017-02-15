@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 13:25:47 2017 Arnaud WURMEL
-// Last update Wed Feb 15 22:04:53 2017 Arnaud WURMEL
+// Last update Thu Feb 16 00:07:07 2017 Arnaud WURMEL
 //
 
 #include <string>
@@ -336,7 +336,7 @@ bool	splitLink(nts::t_ast_node& node)
   pos = node.lexeme.find(":");
   if (pos != std::string::npos)
     {
-      node.value = node.lexeme.substr(pos);
+      node.value = node.lexeme.substr(pos + 1);
       node.lexeme.erase(pos);
       return true;
     }
