@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 17:17:32 2017 Victorien Fischer
-// Last update Wed Feb 15 14:23:16 2017 Arnaud WURMEL
+// Last update Wed Feb 15 20:57:37 2017 Arnaud WURMEL
 //
 
 #include <algorithm>
@@ -149,4 +149,9 @@ nts::IComponent	*nts::ComponentFactory::create4801(const std::string &value) con
 nts::IComponent	*nts::ComponentFactory::create2716(const std::string &value) const
 {
   return (new c2716(value));
+}
+
+nts::ComponentFactory::~ComponentFactory()
+{
+
 }
