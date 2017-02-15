@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 17:12:17 2017 Victorien Fischer
-// Last update Tue Feb 14 23:41:34 2017 Victorien Fischer
+// Last update Wed Feb 15 23:37:08 2017 Victorien Fischer
 //
 
 #ifndef __COMPONENTFACTORY_HPP__
@@ -30,6 +30,8 @@
 #include "c4514.hpp"
 #include "c4801.hpp"
 #include "c2716.hpp"
+#include "cInput.hpp"
+#include "cOutput.hpp"
 
 namespace nts
 {
@@ -41,7 +43,7 @@ namespace nts
     
   public:
     IComponent	*createComponent(const std::string &,
-					 const std::string &);
+				 const std::string &);
     
   private:
     std::map<std::string, std::function<IComponent *(const std::string &)>>	_mapComponent;
@@ -61,6 +63,8 @@ namespace nts
     IComponent	*create4514(const std::string &) const;
     IComponent	*create4801(const std::string &) const;
     IComponent	*create2716(const std::string &) const;
+    IComponent	*createInput(const std::string &) const;
+    IComponent	*createOutput(const std::string &) const;
   };
 }
 

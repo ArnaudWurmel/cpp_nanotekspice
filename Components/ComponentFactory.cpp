@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 17:17:32 2017 Victorien Fischer
-// Last update Wed Feb 15 20:57:37 2017 Arnaud WURMEL
+// Last update Wed Feb 15 23:46:47 2017 Victorien Fischer
 //
 
 #include <algorithm>
@@ -27,6 +27,8 @@ nts::ComponentFactory::ComponentFactory()
   _mapComponent.insert(std::make_pair("4514", std::bind(&nts::ComponentFactory::create4514, this, std::placeholders::_1)));
   _mapComponent.insert(std::make_pair("4801", std::bind(&nts::ComponentFactory::create4801, this, std::placeholders::_1)));
   _mapComponent.insert(std::make_pair("2716", std::bind(&nts::ComponentFactory::create2716, this, std::placeholders::_1)));
+  _mapComponent.insert(std::make_pair("input", std::bind(&nts::ComponentFactory::createInput, this, std::placeholders::_1)));
+  _mapComponent.insert(std::make_pair("output", std::bind(&nts::ComponentFactory::createOutput, this, std::placeholders::_1)));
 }
 
 /*
@@ -151,6 +153,25 @@ nts::IComponent	*nts::ComponentFactory::create2716(const std::string &value) con
   return (new c2716(value));
 }
 
+/*
+** Creates cInput
+*/
+nts::IComponent	*nts::ComponentFactory::createInput(const std::string &value) const
+{
+  return (new cInput(value));
+}
+
+/*
+** Creates cOutput
+*/
+nts::IComponent	*nts::ComponentFactory::createOutput(const std::string &value) const
+{
+  return (new cOutput(value));
+}
+
+/*
+** Destructor
+*/
 nts::ComponentFactory::~ComponentFactory()
 {
 
