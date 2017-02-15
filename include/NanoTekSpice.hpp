@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:22 2017 Arnaud WURMEL
-// Last update Wed Feb 15 00:11:01 2017 Victorien Fischer
+// Last update Wed Feb 15 14:21:10 2017 Arnaud WURMEL
 //
 
 #ifndef NANOTEKSPICE_HPP_
@@ -39,6 +39,7 @@ namespace nts
     void	display();
     void	setInputValue(std::string const&);
     bool	isInputConfiguration(std::string const&);
+    static void	sigintLoop(int);
     
   private:
     std::map<std::string, void(NanoTekSpice::*)()>	_action;

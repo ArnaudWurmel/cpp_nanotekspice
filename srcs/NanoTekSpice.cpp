@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:24 2017 Arnaud WURMEL
-// Last update Wed Feb 15 00:10:39 2017 Victorien Fischer
+// Last update Wed Feb 15 14:22:12 2017 Arnaud WURMEL
 //
 
 #include <map>
@@ -101,7 +101,7 @@ void	nts::NanoTekSpice::simulate()
 void	nts::NanoTekSpice::loop()
 {
   nts::NanoTekSpice::_loop = true;
-  std::signal(SIGINT, sigintLoop);
+  std::signal(SIGINT, nts::NanoTekSpice::sigintLoop);
   while (nts::NanoTekSpice::_loop)
     simulate();
   std::signal(SIGINT, SIG_DFL);
@@ -164,7 +164,7 @@ void	nts::NanoTekSpice::setTree(nts::t_ast_node *node)
 /*
 ** Happens when SIGINT and shell is in loop
 */
-void	sigintLoop(int sig)
+void	nts::NanoTekSpice::sigintLoop(int sig)
 {
   (void)sig;
   nts::NanoTekSpice::_loop = false;
