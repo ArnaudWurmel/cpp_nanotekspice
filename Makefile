@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Fri Jan 27 19:13:05 2017 Arnaud WURMEL
-## Last update Thu Feb 16 00:01:17 2017 Arnaud WURMEL
+## Last update Thu Feb 16 12:31:58 2017 Arnaud WURMEL
 ##
 
 CC=		g++
@@ -39,7 +39,7 @@ SRCS=		$(SRC_PATH)/main.cpp \
 
 OBJS=		$(SRCS:.cpp=.o)
 
-CXXFLAGS+=	-I ./Interface -I ./include -I ./Parser -Wall -Wextra -std=c++11 -I ./Errors -I ./$(COMPONENT)
+CXXFLAGS+=	-I ./Interface -I ./include -I ./Parser -Wall -Wextra -std=c++11 -I ./Errors -I ./$(COMPONENT) -g
 
 NAME=		nanotekspice
 

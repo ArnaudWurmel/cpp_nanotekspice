@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Feb 15 23:18:20 2017 Victorien Fischer
-// Last update Thu Feb 16 01:01:28 2017 Victorien Fischer
+// Last update Thu Feb 16 12:33:55 2017 Arnaud WURMEL
 //
 
 #include "cInput.hpp"
@@ -22,6 +22,7 @@ nts::cInput::cInput(const std::string &value)
   else
     _value = nts::Tristate::UNDEFINED;
   _component = NULL;
+  _link = new std::pair<size_t, size_t>();
   _link->first = 0;
   _link->second = 0;
 }
