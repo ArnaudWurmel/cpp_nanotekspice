@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:24 2017 Arnaud WURMEL
-// Last update Mon Feb 27 17:01:27 2017 Arnaud WURMEL
+// Last update Mon Feb 27 17:21:43 2017 Arnaud WURMEL
 //
 
 #include <map>
@@ -53,6 +53,9 @@ nts::NanoTekSpice::~NanoTekSpice()
     delete _comp;
   if (_inputs)
     delete _inputs;
+  if (_outputs)
+    delete _outputs;
+  _outputs = NULL;
   _inputs = NULL;
   _comp = NULL;
 }
@@ -110,7 +113,14 @@ void		nts::NanoTekSpice::start()
 */
 void	nts::NanoTekSpice::simulate()
 {
-  std::cout << "Simulate function: NOT IMPLEMENTED YET" << std::endl;
+  std::vector<std::pair<std::string, cOutput *> >::const_iterator	it;
+
+  it = _outputs->begin();
+  while (it != _outputs->end())
+    {
+      (*it).second->Compute(1);
+      ++it;
+    }
 }
 
 /*
@@ -147,7 +157,14 @@ void	nts::NanoTekSpice::exit()
 */
 void	nts::NanoTekSpice::display()
 {
-  std::cout << "Display function: NOT IMPLEMENTED YET" << std::endl;
+  std::vector<std::pair<std::string, cOutput *> >::const_iterator	it;
+
+  it = _outputs->begin();
+  while (it != _outputs->end())
+    {
+      std::cout << (*it).first << "=" << (*it).second->getValue() << std::endl;
+      ++it;
+    }
 }
 
 /*
@@ -248,6 +265,7 @@ void	nts::NanoTekSpice::createComponent(void)
     _outputs = new std::vector<std::pair<std::string, cOutput *> >();
   _comp->clear();
   _inputs->clear();
+  _outputs->clear();
   chipset = *_tree->children->begin();
   it = chipset->children->begin();
   while (it != chipset->children->end())

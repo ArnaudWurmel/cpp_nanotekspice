@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Feb 15 23:18:20 2017 Victorien Fischer
-// Last update Mon Feb 27 16:12:24 2017 Arnaud WURMEL
+// Last update Mon Feb 27 17:17:32 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -19,13 +19,15 @@ nts::cOutput::cOutput(const std::string &value)
   _link = new std::pair<size_t, size_t>();
   _link->first = 0;
   _link->second = 0;
+  _value = nts::Tristate::UNDEFINED;
 }
 
 nts::Tristate	nts::cOutput::Compute(size_t pin_num_this)
 {
   if (pin_num_this != 1)
     return (nts::Tristate::UNDEFINED);
-  return (this->_component->Compute());
+  _value = this->_component->Compute();
+  return (_value);
 
 }
 
@@ -48,6 +50,11 @@ void	nts::cOutput::Dump() const
   else
     std::cout << "NULL";
   std::cout << std::endl;
+}
+
+nts::Tristate const&	nts::cOutput::getValue() const
+{
+  return _value;
 }
 
 nts::cOutput::~cOutput()
