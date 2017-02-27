@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Jan 27 19:12:02 2017 Arnaud WURMEL
-// Last update Wed Feb 15 23:22:16 2017 Arnaud WURMEL
+// Last update Mon Feb 27 13:07:23 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -63,8 +63,14 @@ int	main(int ac, char **av)
   if ((node = openFile(av[1])) == NULL)
     return 1;
   root->setTree(node);
-  root->createComponent();
-  root->start();
+  try {
+    root->createComponent();
+    root->start();
+  } catch (std::exception& e)
+    {
+      std::cout << e.what() << std::endl;
+      return (1);
+    }
   delete root;
   return 0;
 }

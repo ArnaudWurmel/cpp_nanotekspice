@@ -5,11 +5,13 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:24 2017 Arnaud WURMEL
-// Last update Thu Feb 16 00:07:29 2017 Arnaud WURMEL
+// Last update Mon Feb 27 13:09:55 2017 Arnaud WURMEL
 //
 
 #include <map>
 #include <csignal>
+#include <functional>
+#include <utility>
 #include <vector>
 #include <iostream>
 #include <algorithm>
@@ -25,7 +27,7 @@ bool nts::NanoTekSpice::_loop = false;
 /*
 ** Constructor, assign map function ptr
 */
-nts::NanoTekSpice::NanoTekSpice() : _comp(0), _name(0)
+nts::NanoTekSpice::NanoTekSpice() : _comp(0)
 {
   _tree = NULL;
   _continue = true;
@@ -48,10 +50,7 @@ nts::NanoTekSpice::~NanoTekSpice()
     }
   if (_comp)
     delete _comp;
-  if (_name)
-    delete _name;
   _comp = NULL;
-  _name = NULL;
 }
 
 /*
@@ -187,14 +186,14 @@ void	nts::NanoTekSpice::sigintLoop(int sig)
 
 nts::IComponent	*nts::NanoTekSpice::getComponentByName(std::string const& name)
 {
-  size_t	i;
+  std::vector<std::pair<std::string, IComponent *> >::iterator	it;
 
-  i = 0;
-  while (i < _name->size())
+  it = _comp->begin();
+  while (it != _comp->end())
     {
-      if ((*_name)[i].compare(name) == 0)
-	return ((*_comp)[i]);
-      ++i;
+      if ((*it).first.compare(name) == 0)
+	return ((*it).second);
+      ++it;
     }
   return (NULL);
 }
@@ -204,28 +203,25 @@ nts::IComponent	*nts::NanoTekSpice::getComponentByName(std::string const& name)
 */
 void	nts::NanoTekSpice::createComponent(void)
 {
-  nts::t_ast_node	*chipset;
-  nts::t_ast_node	*links;
+  nts::t_ast_node				*chipset;
+  nts::t_ast_node				*links;
   std::vector<nts::t_ast_node *>::iterator	it;
-  nts::ComponentFactory	componentFactory;
-  nts::IComponent	*link_start;
-  nts::IComponent	*link_end;
-  nts::t_ast_node	*children;
+  nts::ComponentFactory				componentFactory;
+  nts::IComponent				*link_start;
+  nts::IComponent				*link_end;
+  nts::t_ast_node				*children;
 
   if (!_tree)
     return ;
   if (!_comp)
-    _comp = new std::vector<IComponent *>();
-  if (!_name)
-    _name = new std::vector<std::string>();
+    _comp = new std::vector<std::pair<std::string, IComponent *> >();
   _comp->clear();
-  _name->clear();
   chipset = *_tree->children->begin();
   it = chipset->children->begin();
   while (it != chipset->children->end())
     {
-      _comp->push_back(componentFactory.createComponent((*it)->lexeme, (*it)->value));
-      _name->push_back((*(*it)->children->begin())->lexeme);
+      _comp->push_back(std::make_pair((*(*it)->children->begin())->lexeme,
+				      componentFactory.createComponent((*it)->lexeme, (*it)->value)));
       ++it;
     }
   links = (*_tree->children)[1];

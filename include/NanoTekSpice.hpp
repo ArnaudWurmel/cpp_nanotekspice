@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:22 2017 Arnaud WURMEL
-// Last update Wed Feb 15 23:27:20 2017 Arnaud WURMEL
+// Last update Mon Feb 27 12:43:49 2017 Arnaud WURMEL
 //
 
 #ifndef NANOTEKSPICE_HPP_
@@ -54,8 +54,7 @@ namespace nts
     std::map<std::string, void(NanoTekSpice::*)()>	_action;
     bool						_continue;
     nts::t_ast_node					*_tree;
-    std::vector<IComponent *>	*_comp;
-    std::vector<std::string>	*_name;
+    std::vector<std::pair<std::string, IComponent *> >	*_comp;
 
   public:
     static bool						_loop;
