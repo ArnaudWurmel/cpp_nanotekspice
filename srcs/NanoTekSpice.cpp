@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:24 2017 Arnaud WURMEL
-// Last update Mon Feb 27 13:09:55 2017 Arnaud WURMEL
+// Last update Mon Feb 27 17:01:27 2017 Arnaud WURMEL
 //
 
 #include <map>
@@ -15,6 +15,7 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include "cInput.hpp"
 #include "Helper.hpp"
 #include "IParser.hpp"
 #include "NanoTekSpice.hpp"
@@ -27,7 +28,7 @@ bool nts::NanoTekSpice::_loop = false;
 /*
 ** Constructor, assign map function ptr
 */
-nts::NanoTekSpice::NanoTekSpice() : _comp(0)
+nts::NanoTekSpice::NanoTekSpice() : _comp(0), _inputs(0), _outputs(0)
 {
   _tree = NULL;
   _continue = true;
@@ -50,6 +51,9 @@ nts::NanoTekSpice::~NanoTekSpice()
     }
   if (_comp)
     delete _comp;
+  if (_inputs)
+    delete _inputs;
+  _inputs = NULL;
   _comp = NULL;
 }
 
@@ -154,8 +158,31 @@ void	nts::NanoTekSpice::display()
 */
 void	nts::NanoTekSpice::setInputValue(std::string const& input)
 {
-  (void)input;
-  std::cout << "Set function: NOT IMPLEMENTED YET" << std::endl;
+  std::string	name;
+  std::string	value;
+  std::vector<std::pair<std::string, cInput *> >::iterator	it;
+
+  name = input;
+  name = name.erase(input.find("="));
+  value = input.substr(input.find("=") + 1);
+  Helper::epurStr(name);
+  Helper::epurStr(value);
+  it = _inputs->begin();
+  while (it != _inputs->end())
+    {
+      if ((*it).first.compare(name) == 0)
+	{
+	  if (value.compare("0") == 0)
+	    (*it).second->setValue(nts::Tristate::FALSE);
+	  else if (value.compare("1") == 0)
+	    (*it).second->setValue(nts::Tristate::TRUE);
+	  else
+	    std::cerr << "Unknown value : " << value << " for input" << std::endl;
+	  return ;
+	}
+      ++it;
+    }
+  std::cerr << "Unknown name : " << name << std::endl;
 }
 
 /*
@@ -215,13 +242,22 @@ void	nts::NanoTekSpice::createComponent(void)
     return ;
   if (!_comp)
     _comp = new std::vector<std::pair<std::string, IComponent *> >();
+  if (!_inputs)
+    _inputs = new std::vector<std::pair<std::string, cInput *> >();
+  if (!_outputs)
+    _outputs = new std::vector<std::pair<std::string, cOutput *> >();
   _comp->clear();
+  _inputs->clear();
   chipset = *_tree->children->begin();
   it = chipset->children->begin();
   while (it != chipset->children->end())
     {
       _comp->push_back(std::make_pair((*(*it)->children->begin())->lexeme,
 				      componentFactory.createComponent((*it)->lexeme, (*it)->value)));
+      if ((*it)->lexeme.compare("input") == 0)
+	_inputs->push_back(std::make_pair(_comp->back().first, dynamic_cast<cInput *>(_comp->back().second)));
+      else if ((*it)->lexeme.compare("output") == 0)
+	_outputs->push_back(std::make_pair(_comp->back().first, dynamic_cast<cOutput *>(_comp->back().second)));
       ++it;
     }
   links = (*_tree->children)[1];
@@ -234,6 +270,7 @@ void	nts::NanoTekSpice::createComponent(void)
       if ((link_end = getComponentByName(children->lexeme)) == NULL)
 	throw Errors("Unknown name for link_end");
       link_start->SetLink(std::stoi((*it)->value, nullptr, 0), *link_end, std::stoi(children->value, nullptr, 0));
+      link_end->SetLink(std::stoi(children->value, nullptr, 0), *link_start, std::stoi((*it)->value));
       ++it;
     }
 }

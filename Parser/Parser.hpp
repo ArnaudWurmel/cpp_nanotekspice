@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 13:12:08 2017 Arnaud WURMEL
-// Last update Wed Feb 15 21:14:43 2017 Arnaud WURMEL
+// Last update Mon Feb 27 16:30:57 2017 Arnaud WURMEL
 //
 
 #ifndef PARSER_HPP_
@@ -43,6 +43,7 @@ public:
 public:
   void			checkParenthesis(nts::t_ast_node *) const;
   static void		RemoveCommentaryFromInput(std::string&);
+  void			dumpTree(nts::t_ast_node *, size_t);
 
   /*
   ** Syntax checker

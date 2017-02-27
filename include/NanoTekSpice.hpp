@@ -5,13 +5,16 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:22 2017 Arnaud WURMEL
-// Last update Mon Feb 27 12:43:49 2017 Arnaud WURMEL
+// Last update Mon Feb 27 16:56:28 2017 Arnaud WURMEL
 //
 
 #ifndef NANOTEKSPICE_HPP_
 # define NANOTEKSPICE_HPP_
+
 # include "IParser.hpp"
 # include "IComponent.hpp"
+# include "cInput.hpp"
+# include "cOutput.hpp"
 
 # define PROMPT		"> "
 # define NOT_FOUND	": Command not found"
@@ -55,6 +58,8 @@ namespace nts
     bool						_continue;
     nts::t_ast_node					*_tree;
     std::vector<std::pair<std::string, IComponent *> >	*_comp;
+    std::vector<std::pair<std::string, cInput *> >	*_inputs;
+    std::vector<std::pair<std::string, cOutput *> >	*_outputs;
 
   public:
     static bool						_loop;

@@ -5,9 +5,11 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Feb 15 23:18:20 2017 Victorien Fischer
-// Last update Thu Feb 16 12:33:55 2017 Arnaud WURMEL
+// Last update Mon Feb 27 15:10:56 2017 Arnaud WURMEL
 //
 
+#include <iostream>
+#include "Errors.hpp"
 #include "cInput.hpp"
 
 /*
@@ -17,7 +19,7 @@ nts::cInput::cInput(const std::string &value)
 {
   if (value.compare("0") == 0)
     _value = nts::Tristate::FALSE;
-  else if (value.compare("1") == 1)
+  else if (value.compare("1") == 0)
     _value = nts::Tristate::TRUE;
   else
     _value = nts::Tristate::UNDEFINED;
@@ -32,6 +34,8 @@ nts::cInput::cInput(const std::string &value)
 */
 nts::Tristate	nts::cInput::Compute(size_t pin_num_this)
 {
+  if (pin_num_this != 1)
+    return (nts::Tristate::UNDEFINED);
   return (_value);
 }
 
@@ -41,10 +45,11 @@ nts::Tristate	nts::cInput::Compute(size_t pin_num_this)
 void	nts::cInput::SetLink(size_t pin_num_this, nts::IComponent &component,
 			     size_t pin_num_target)
 {
+  if (pin_num_this != 1)
+    throw Errors("Wrong pin link for input");
   _link->first = pin_num_this;
   _link->second = pin_num_target;
   _component = &component;
-  component.SetLink(pin_num_target, *this, pin_num_this);
 }
 
 /*
@@ -52,7 +57,7 @@ void	nts::cInput::SetLink(size_t pin_num_this, nts::IComponent &component,
 */
 void	nts::cInput::Dump() const
 {
-  std::cout << "Input - value: " << (int)_value << std::endl;
+  std::cout << "Input - value: " << static_cast<int>(_value) << std::endl;
   std::cout << "\tpin #1: ";
   if (_component)
     std::cout << "linked";
@@ -61,9 +66,15 @@ void	nts::cInput::Dump() const
   std::cout << std::endl;
 }
 
+void	nts::cInput::setValue(nts::Tristate const& value)
+{
+  _value = value;
+}
+
 /*
 ** Destructor
 */
 nts::cInput::~cInput()
 {
+
 }

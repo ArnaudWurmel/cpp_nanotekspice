@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 13:25:47 2017 Arnaud WURMEL
-// Last update Thu Feb 16 00:07:07 2017 Arnaud WURMEL
+// Last update Mon Feb 27 16:39:57 2017 Arnaud WURMEL
 //
 
 #include <string>
@@ -358,4 +358,33 @@ bool		Parser::checkLink(nts::t_ast_node& node) const
       return true;
     }
   return false;
+}
+
+void		Parser::dumpTree(nts::t_ast_node *node, size_t depth)
+{
+  std::vector<nts::t_ast_node *>::iterator	it;
+  size_t	i;
+
+  i = 0;
+  while (i < depth)
+    {
+      std::cout << "-";
+      ++i;
+    }
+  if (node->type != nts::ASTNodeType::DEFAULT)
+    {
+      if (node->type == nts::ASTNodeType::SECTION)
+	std::cout << " " << node->value << std::endl;
+      else
+	std::cout << " " << node->lexeme << std::endl;
+    }
+  if (node->children)
+    {
+      it = node->children->begin();
+      while (it != node->children->end())
+	{
+	  dumpTree(*it, depth + 1);
+	  ++it;
+	}
+    }
 }

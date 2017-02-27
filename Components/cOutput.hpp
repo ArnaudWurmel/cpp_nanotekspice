@@ -5,13 +5,15 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Feb 15 22:29:53 2017 Victorien Fischer
-// Last update Wed Feb 15 23:58:07 2017 Victorien Fischer
+// Last update Mon Feb 27 16:05:54 2017 Arnaud WURMEL
 //
 
 #ifndef __COUTPUT_HPP__
 # define __COUTPUT_HPP__
 
 #include <string>
+#include <utility>
+#include <iostream>
 #include "IComponent.hpp"
 
 namespace nts
@@ -26,6 +28,10 @@ namespace nts
     virtual nts::Tristate	Compute(size_t pin_num_this = 1);
     virtual void		SetLink(size_t,	nts::IComponent &, size_t);
     virtual void		Dump(void) const;
+
+  private:
+    nts::IComponent		*_component;
+    std::pair<size_t, size_t>	*_link;
   };
 }
 

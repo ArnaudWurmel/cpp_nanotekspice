@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Feb 15 22:29:53 2017 Victorien Fischer
-// Last update Thu Feb 16 00:30:21 2017 Victorien Fischer
+// Last update Mon Feb 27 16:05:46 2017 Arnaud WURMEL
 //
 
 #ifndef __CINPUT_HPP__
@@ -28,6 +28,7 @@ namespace nts
     virtual nts::Tristate	Compute(size_t pin_num_this = 1);
     virtual void		SetLink(size_t,	nts::IComponent &, size_t);
     virtual void		Dump(void) const;
+    void			setValue(nts::Tristate const&);
 
   private:
     nts::Tristate		_value;
