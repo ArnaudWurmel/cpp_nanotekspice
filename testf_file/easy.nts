@@ -1,6 +1,13 @@
 .chipsets:
 input	a0
+input	a1
+
+4081	AND
+
 output	o
 
+
 .links:
-a0:1	o:1
+a0:1	AND:1
+a1:1	AND:2
+o:1	AND:3

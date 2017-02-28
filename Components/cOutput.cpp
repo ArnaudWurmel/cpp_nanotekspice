@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Feb 15 23:18:20 2017 Victorien Fischer
-// Last update Mon Feb 27 17:17:32 2017 Arnaud WURMEL
+// Last update Tue Feb 28 12:12:26 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -26,7 +26,7 @@ nts::Tristate	nts::cOutput::Compute(size_t pin_num_this)
 {
   if (pin_num_this != 1)
     return (nts::Tristate::UNDEFINED);
-  _value = this->_component->Compute();
+  _value = this->_component->Compute(_link->second);
   return (_value);
 
 }
