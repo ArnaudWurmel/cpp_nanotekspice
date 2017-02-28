@@ -5,13 +5,16 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:17:27 2017 Victorien Fischer
-// Last update Tue Feb 14 23:25:46 2017 Victorien Fischer
+// Last update Tue Feb 28 18:48:40 2017 Victorien Fischer
 //
 
 #ifndef __C4011_HPP__
 # define __C4011_HPP__
 
 #include <string>
+#include <vector>
+#include <utility>
+#include <functional>
 #include "IComponent.hpp"
 
 namespace nts
@@ -28,6 +31,13 @@ namespace nts
 					nts::IComponent &component,
 					size_t pin_num_target);
     virtual void		Dump(void) const;
+
+  public:
+    bool			alreadyLink(size_t);
+    bool			getValueForPin(size_t);
+
+  private:
+    std::vector<std::pair<size_t, std::pair<size_t, IComponent *> > >	_links;
   };
 }
 
