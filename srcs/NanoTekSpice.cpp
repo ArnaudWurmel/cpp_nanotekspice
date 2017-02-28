@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:24 2017 Arnaud WURMEL
-// Last update Mon Feb 27 17:21:43 2017 Arnaud WURMEL
+// Last update Tue Feb 28 10:21:27 2017 Arnaud WURMEL
 //
 
 #include <map>
@@ -90,10 +90,18 @@ bool	nts::NanoTekSpice::executeAction(std::string const& input)
 ** Call from main, loop for program
 ** It show a prompt and execute user instruction
 */
-void		nts::NanoTekSpice::start()
+void		nts::NanoTekSpice::start(int ac, char **av)
 {
   std::string	input;
+  int		i;
 
+  i = 2;
+  while (i < ac)
+    {
+      if (this->executeAction(std::string(av[i])) == false)
+	throw Errors("Unknown input as parameters");
+      ++i;
+    }
   while (_continue)
     {
       std::cout << PROMPT;

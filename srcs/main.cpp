@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Jan 27 19:12:02 2017 Arnaud WURMEL
-// Last update Mon Feb 27 16:49:43 2017 Arnaud WURMEL
+// Last update Tue Feb 28 10:20:00 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -66,7 +66,7 @@ int	main(int ac, char **av)
   root->setTree(node);
   try {
     root->createComponent();
-    root->start();
+    root->start(ac, av);
   } catch (std::exception& e)
     {
       std::cout << e.what() << std::endl;
