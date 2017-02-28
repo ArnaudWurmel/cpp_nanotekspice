@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:24 2017 Arnaud WURMEL
-// Last update Tue Feb 28 11:34:05 2017 Arnaud WURMEL
+// Last update Tue Feb 28 17:44:38 2017 Arnaud WURMEL
 //
 
 #include <map>
@@ -92,6 +92,7 @@ bool	nts::NanoTekSpice::executeAction(std::string const& input)
 */
 void		nts::NanoTekSpice::start(int ac, char **av)
 {
+  std::vector<std::pair<std::string, cInput *> >::const_iterator	it;
   std::string	input;
   int		i;
 
@@ -102,6 +103,14 @@ void		nts::NanoTekSpice::start(int ac, char **av)
 	throw Errors("Unknown input as parameters");
       ++i;
     }
+  it = _inputs->begin();
+  while (it != _inputs->end())
+    {
+      if ((*it).second->Compute(1) == nts::Tristate::UNDEFINED)
+	throw Errors("Input not set.");
+      ++it;
+    }
+  this->simulate();
   while (_continue)
     {
       std::cout << PROMPT;

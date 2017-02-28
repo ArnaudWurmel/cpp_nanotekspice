@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 13:12:08 2017 Arnaud WURMEL
-// Last update Mon Feb 27 16:30:57 2017 Arnaud WURMEL
+// Last update Tue Feb 28 14:57:36 2017 Arnaud WURMEL
 //
 
 #ifndef PARSER_HPP_
@@ -60,7 +60,7 @@ private:
   std::string const&	getFeed();
 
 private:
-  std::string	_input;
+  std::string			_input;
   std::map<std::string, bool>	_chipset;
 };
 
