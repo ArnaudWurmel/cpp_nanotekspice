@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Tue Feb 28 21:23:18 2017 Arnaud WURMEL
+// Last update Tue Feb 28 21:24:22 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -56,19 +56,15 @@ nts::Tristate	nts::c4008::Compute(size_t pin_num_this)
     ret = 1;
   while (i < 4)
     {
-      std::cout << "Ret : " << (int)ret << std::endl;
       if (ret)
 	{
 	  input[i] += 1;
 	  ret = 0;
 	}
-      std::cout << "Pin value : " << _outputs[i + 10].first << " " << getValueForPin(_outputs[i + 10].first) << std::endl;
-      std::cout << "Pin value : " << _outputs[i + 10].second << " " << getValueForPin(_outputs[i + 10].second) << std::endl;
       if (getValueForPin(_outputs[i + 10].first))
 	input[i] += 1;
       if (getValueForPin(_outputs[i + 10].second))
 	input[i] += 1;
-      std::cout << "Input value : " << (int)input[i] << std::endl << std::endl;
       if (input[i] > 1)
 	{
 	  input[i] -= 2;
@@ -76,7 +72,6 @@ nts::Tristate	nts::c4008::Compute(size_t pin_num_this)
 	}
       ++i;
     }
-  std::cout << "Leaving..." << std::endl;
   if (pin_num_this == 14)
     return (ret == 1 ? nts::Tristate::TRUE : nts::Tristate::FALSE);
   return (input[pin_num_this - 10] == 1 ? nts::Tristate::TRUE : nts::Tristate::FALSE);
