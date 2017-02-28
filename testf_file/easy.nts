@@ -1,13 +1,14 @@
 .chipsets:
-input	a0
-input	a1
+input	a
+input	b
 
 4081	AND
+2716	t(test)
 
 output	o
 
 
 .links:
-a0:1	AND:1
-a1:1	AND:2
+a:1	AND:1
+b:1	AND:2
 o:1	AND:3
