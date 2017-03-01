@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:17:27 2017 Victorien Fischer
-// Last update Wed Mar  1 22:54:18 2017 Arnaud WURMEL
+// Last update Wed Mar  1 23:12:06 2017 Arnaud WURMEL
 //
 
 #ifndef __C4040_HPP__
@@ -36,6 +36,8 @@ namespace nts
   public:
     bool			alreadyLink(size_t);
     bool			getValueForPin(size_t);
+    bool			isCorrectPin(size_t);
+    void			resetOutput(void);
     
   private:
     std::vector<std::pair<size_t, std::pair<size_t, IComponent *> > >	_links;
