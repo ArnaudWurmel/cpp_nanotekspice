@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 17:37:04 2017 Victorien Fischer
-// Last update Tue Feb 28 19:11:28 2017 Victorien Fischer
+// Last update Wed Mar  1 15:12:46 2017 Arnaud WURMEL
 //
 
 #include <string>
