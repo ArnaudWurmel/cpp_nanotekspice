@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:22 2017 Arnaud WURMEL
-// Last update Tue Feb 28 10:20:27 2017 Arnaud WURMEL
+// Last update Wed Mar  1 18:15:56 2017 Arnaud WURMEL
 //
 
 #ifndef NANOTEKSPICE_HPP_
@@ -15,6 +15,7 @@
 # include "IComponent.hpp"
 # include "cInput.hpp"
 # include "cOutput.hpp"
+# include "cClock.hpp"
 
 # define PROMPT		"> "
 # define NOT_FOUND	": Command not found"
@@ -52,6 +53,12 @@ namespace nts
     void	setInputValue(std::string const&);
     bool	isInputConfiguration(std::string const&);
     static void	sigintLoop(int);
+    void	setClock();
+
+  public:
+    void	addInput();
+    void	addOutput();
+    void	addClock();
     
   private:
     std::map<std::string, void(NanoTekSpice::*)()>	_action;
@@ -60,6 +67,7 @@ namespace nts
     std::vector<std::pair<std::string, IComponent *> >	*_comp;
     std::vector<std::pair<std::string, cInput *> >	*_inputs;
     std::vector<std::pair<std::string, cOutput *> >	*_outputs;
+    std::vector<std::pair<std::string, cClock *> >	*_clocks;
 
   public:
     static bool						_loop;

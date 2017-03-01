@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 17:17:32 2017 Victorien Fischer
-// Last update Tue Feb 28 11:58:20 2017 Arnaud WURMEL
+// Last update Wed Mar  1 18:07:23 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -30,6 +30,7 @@ nts::ComponentFactory::ComponentFactory()
   _mapComponent.insert(std::make_pair("2716", std::bind(&nts::ComponentFactory::create2716, this, std::placeholders::_1)));
   _mapComponent.insert(std::make_pair("input", std::bind(&nts::ComponentFactory::createInput, this, std::placeholders::_1)));
   _mapComponent.insert(std::make_pair("output", std::bind(&nts::ComponentFactory::createOutput, this, std::placeholders::_1)));
+  _mapComponent.insert(std::make_pair("clock", std::bind(&nts::ComponentFactory::createClock, this, std::placeholders::_1)));
 }
 
 /*
@@ -160,6 +161,14 @@ nts::IComponent	*nts::ComponentFactory::create2716(const std::string &value) con
 nts::IComponent	*nts::ComponentFactory::createInput(const std::string &value) const
 {
   return (new cInput(value));
+}
+
+/*
+** Creates cClock
+*/
+nts::IComponent	*nts::ComponentFactory::createClock(const std::string &value) const
+{
+  return (new cClock(value));
 }
 
 /*

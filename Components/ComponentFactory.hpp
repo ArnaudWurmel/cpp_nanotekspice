@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 17:12:17 2017 Victorien Fischer
-// Last update Wed Feb 15 23:37:08 2017 Victorien Fischer
+// Last update Wed Mar  1 18:07:41 2017 Arnaud WURMEL
 //
 
 #ifndef __COMPONENTFACTORY_HPP__
@@ -32,6 +32,7 @@
 #include "c2716.hpp"
 #include "cInput.hpp"
 #include "cOutput.hpp"
+#include "cClock.hpp"
 
 namespace nts
 {
@@ -62,6 +63,7 @@ namespace nts
     IComponent	*create4094(const std::string &) const;
     IComponent	*create4514(const std::string &) const;
     IComponent	*create4801(const std::string &) const;
+    IComponent	*createClock(const std::string &) const;
     IComponent	*create2716(const std::string &) const;
     IComponent	*createInput(const std::string &) const;
     IComponent	*createOutput(const std::string &) const;

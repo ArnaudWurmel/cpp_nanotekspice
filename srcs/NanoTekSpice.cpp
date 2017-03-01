@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:24 2017 Arnaud WURMEL
-// Last update Wed Mar  1 09:20:51 2017 Arnaud WURMEL
+// Last update Wed Mar  1 18:24:34 2017 Arnaud WURMEL
 //
 
 #include <map>
@@ -16,6 +16,7 @@
 #include <iostream>
 #include <algorithm>
 #include "cInput.hpp"
+#include "cClock.hpp"
 #include "Helper.hpp"
 #include "IParser.hpp"
 #include "NanoTekSpice.hpp"
@@ -28,7 +29,7 @@ bool nts::NanoTekSpice::_loop = false;
 /*
 ** Constructor, assign map function ptr
 */
-nts::NanoTekSpice::NanoTekSpice() : _comp(0), _inputs(0), _outputs(0)
+nts::NanoTekSpice::NanoTekSpice() : _comp(0), _inputs(0), _outputs(0), _clocks(0)
 {
   _tree = NULL;
   _continue = true;
@@ -93,6 +94,7 @@ bool	nts::NanoTekSpice::executeAction(std::string const& input)
 void		nts::NanoTekSpice::start(int ac, char **av)
 {
   std::vector<std::pair<std::string, cInput *> >::const_iterator	it;
+  std::vector<std::pair<std::string, cClock *> >::const_iterator	it_clock;
   std::string	input;
   int		i;
 
@@ -109,6 +111,13 @@ void		nts::NanoTekSpice::start(int ac, char **av)
       if ((*it).second->Compute(1) == nts::Tristate::UNDEFINED)
 	throw Errors("Input not set.");
       ++it;
+    }
+  it_clock = _clocks->begin();
+  while (it_clock != _clocks->end())
+    {
+      if ((*it_clock).second->Compute(1) == nts::Tristate::UNDEFINED)
+	throw Errors("Input not set.");
+      ++it_clock;
     }
   this->simulate();
   this->display();
@@ -139,6 +148,7 @@ void	nts::NanoTekSpice::simulate()
       (*it).second->Compute(1);
       ++it;
     }
+  setClock();
 }
 
 /*
@@ -196,6 +206,7 @@ void	nts::NanoTekSpice::setInputValue(std::string const& input)
   std::string	name;
   std::string	value;
   std::vector<std::pair<std::string, cInput *> >::iterator	it;
+  std::vector<std::pair<std::string, cClock *> >::iterator	it_clock;
 
   name = input;
   name = name.erase(input.find("="));
@@ -217,6 +228,21 @@ void	nts::NanoTekSpice::setInputValue(std::string const& input)
 	}
       ++it;
     }
+  it_clock = _clocks->begin();
+  while (it_clock != _clocks->end())
+    {
+      if ((*it_clock).first.compare(name) == 0)
+	{
+	  if (value.compare("0") == 0)
+	    (*it_clock).second->setValue(nts::Tristate::FALSE);
+	  else if (value.compare("1") == 0)
+	    (*it_clock).second->setValue(nts::Tristate::TRUE);
+	  else
+	    std::cerr << "Unknown value : " << value << " for clock" << std::endl;
+	  return ;
+	}
+      ++it_clock;
+    }
   std::cerr << "Unknown name : " << name << std::endl;
 }
 
@@ -235,6 +261,24 @@ bool	nts::NanoTekSpice::isInputConfiguration(std::string const& input)
 void	nts::NanoTekSpice::setTree(nts::t_ast_node *node)
 {
   _tree = node;
+}
+
+/*
+** Reverse clock values
+*/
+void	nts::NanoTekSpice::setClock()
+{
+  std::vector<std::pair<std::string, cClock *> >::iterator	it;
+
+  it = _clocks->begin();
+  while (it != _clocks->end())
+    {
+      if ((*it).second->Compute(1) == nts::Tristate::FALSE)
+	(*it).second->setValue(nts::Tristate::TRUE);
+      else
+	(*it).second->setValue(nts::Tristate::FALSE);
+      ++it;
+    }
 }
 
 /*
@@ -260,6 +304,21 @@ nts::IComponent	*nts::NanoTekSpice::getComponentByName(std::string const& name)
   return (NULL);
 }
 
+void	nts::NanoTekSpice::addInput(void)
+{
+  _inputs->push_back(std::make_pair(_comp->back().first, dynamic_cast<cInput *>(_comp->back().second)));
+}
+
+void	nts::NanoTekSpice::addOutput(void)
+{
+  _outputs->push_back(std::make_pair(_comp->back().first, dynamic_cast<cOutput *>(_comp->back().second)));
+}
+
+void	nts::NanoTekSpice::addClock(void)
+{
+  _clocks->push_back(std::make_pair(_comp->back().first, dynamic_cast<cClock *>(_comp->back().second)));
+}
+
 /*
 ** Parse tree
 */
@@ -272,7 +331,11 @@ void	nts::NanoTekSpice::createComponent(void)
   nts::IComponent				*link_start;
   nts::IComponent				*link_end;
   nts::t_ast_node				*children;
+  std::map<std::string, void (NanoTekSpice::*)()>	caller;
 
+  caller["input"] = &nts::NanoTekSpice::addInput;
+  caller["output"] = &nts::NanoTekSpice::addOutput;
+  caller["clock"] = &nts::NanoTekSpice::addClock;
   if (!_tree)
     return ;
   if (!_comp)
@@ -281,19 +344,22 @@ void	nts::NanoTekSpice::createComponent(void)
     _inputs = new std::vector<std::pair<std::string, cInput *> >();
   if (!_outputs)
     _outputs = new std::vector<std::pair<std::string, cOutput *> >();
+  if (!_clocks)
+    _clocks = new std::vector<std::pair<std::string, cClock *> >();
   _comp->clear();
   _inputs->clear();
   _outputs->clear();
+  _clocks->clear();
   chipset = *_tree->children->begin();
   it = chipset->children->begin();
   while (it != chipset->children->end())
     {
       _comp->push_back(std::make_pair((*(*it)->children->begin())->lexeme,
 				      componentFactory.createComponent((*it)->lexeme, (*it)->value)));
-      if ((*it)->lexeme.compare("input") == 0)
-	_inputs->push_back(std::make_pair(_comp->back().first, dynamic_cast<cInput *>(_comp->back().second)));
-      else if ((*it)->lexeme.compare("output") == 0)
-	_outputs->push_back(std::make_pair(_comp->back().first, dynamic_cast<cOutput *>(_comp->back().second)));
+      if (caller.find((*it)->lexeme) != caller.end())
+	{
+	  (this->*caller[(*it)->lexeme])();
+	}
       ++it;
     }
   links = (*_tree->children)[1];
