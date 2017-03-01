@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:17:27 2017 Victorien Fischer
-// Last update Wed Mar  1 19:01:12 2017 Arnaud WURMEL
+// Last update Wed Mar  1 22:54:18 2017 Arnaud WURMEL
 //
 
 #ifndef __C4040_HPP__
@@ -41,6 +41,7 @@ namespace nts
     std::vector<std::pair<size_t, std::pair<size_t, IComponent *> > >	_links;
     std::map<size_t, size_t>	_pins;
     char			_outputs[12];
+    size_t			_sim_id;
   };
 }
 

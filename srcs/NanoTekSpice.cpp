@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:24 2017 Arnaud WURMEL
-// Last update Wed Mar  1 18:24:34 2017 Arnaud WURMEL
+// Last update Wed Mar  1 23:05:26 2017 Arnaud WURMEL
 //
 
 #include <map>
@@ -25,6 +25,7 @@
 #include "Errors.hpp"
 
 bool nts::NanoTekSpice::_loop = false;
+size_t nts::NanoTekSpice::_sim_id = 1;
 
 /*
 ** Constructor, assign map function ptr
@@ -56,9 +57,12 @@ nts::NanoTekSpice::~NanoTekSpice()
     delete _inputs;
   if (_outputs)
     delete _outputs;
+  if (_clocks)
+    delete _clocks;
   _outputs = NULL;
   _inputs = NULL;
   _comp = NULL;
+  _clocks = NULL;
 }
 
 /*
@@ -149,6 +153,7 @@ void	nts::NanoTekSpice::simulate()
       ++it;
     }
   setClock();
+  NanoTekSpice::_sim_id += 1;
 }
 
 /*

@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:22 2017 Arnaud WURMEL
-// Last update Wed Mar  1 18:15:56 2017 Arnaud WURMEL
+// Last update Wed Mar  1 22:52:28 2017 Arnaud WURMEL
 //
 
 #ifndef NANOTEKSPICE_HPP_
@@ -71,6 +71,7 @@ namespace nts
 
   public:
     static bool						_loop;
+    static size_t					_sim_id;
   };
 }
 
