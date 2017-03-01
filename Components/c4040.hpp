@@ -5,13 +5,17 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:17:27 2017 Victorien Fischer
-// Last update Tue Feb 14 23:25:36 2017 Victorien Fischer
+// Last update Wed Mar  1 19:01:12 2017 Arnaud WURMEL
 //
 
 #ifndef __C4040_HPP__
 # define __C4040_HPP__
 
 #include <string>
+#include <vector>
+#include <functional>
+#include <utility>
+#include <map>
 #include "IComponent.hpp"
 
 namespace nts
@@ -28,6 +32,15 @@ namespace nts
 					nts::IComponent &component,
 					size_t pin_num_target);
     virtual void		Dump(void) const;
+
+  public:
+    bool			alreadyLink(size_t);
+    bool			getValueForPin(size_t);
+    
+  private:
+    std::vector<std::pair<size_t, std::pair<size_t, IComponent *> > >	_links;
+    std::map<size_t, size_t>	_pins;
+    char			_outputs[12];
   };
 }
 
