@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:17:27 2017 Victorien Fischer
-// Last update Thu Mar  2 14:34:39 2017 Victorien Fischer
+// Last update Thu Mar  2 20:28:01 2017 Victorien Fischer
 //
 
 #ifndef __C4013_HPP__
@@ -27,6 +27,12 @@ namespace nts
     virtual nts::Tristate	Compute(size_t pin_num_this = 1);
     virtual void		SetLink(size_t,	nts::IComponent &, size_t);
     virtual void		Dump() const;
+
+  public:
+    nts::Tristate		getOutputValue(bool, bool, bool) const;
+
+  private:
+    nts::Tristate		_previous[2];
   };
 }
 
