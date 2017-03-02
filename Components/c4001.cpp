@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Thu Mar  2 18:58:17 2017 Victorien Fischer
+// Last update Fri Mar  3 00:19:58 2017 Arnaud WURMEL
 //
 
 #include <string>
@@ -17,6 +17,12 @@
 */
 nts::c4001::c4001(const std::string &value) : Component(value)
 {
+  _computeFunctions.insert(std::make_pair(3, std::bind(&nts::c4001::ComputeOutput, this, std::placeholders::_1)));
+  _computeFunctions.insert(std::make_pair(4, std::bind(&nts::c4001::ComputeOutput, this, std::placeholders::_1)));
+  _computeFunctions.insert(std::make_pair(10, std::bind(&nts::c4001::ComputeOutput, this, std::placeholders::_1)));
+  _computeFunctions.insert(std::make_pair(11, std::bind(&nts::c4001::ComputeOutput, this, std::placeholders::_1)));
+  _computeFunctions.insert(std::make_pair(7, std::bind(&nts::Component::ComputeOnVSS, this, std::placeholders::_1)));
+  _computeFunctions.insert(std::make_pair(14, std::bind(&nts::Component::ComputeOnVDD, this, std::placeholders::_1)));
 }
 
 /*
@@ -24,29 +30,36 @@ nts::c4001::c4001(const std::string &value) : Component(value)
 */
 nts::Tristate	nts::c4001::Compute(size_t pin_num_this)
 {
+  if (_computeFunctions.find(pin_num_this) != _computeFunctions.end())
+    {
+      return (_computeFunctions[pin_num_this](pin_num_this));
+    }
+  throw Errors("Compute on no output pin");
+}
+
+/*
+** Compute output
+*/
+nts::Tristate	nts::c4001::ComputeOutput(size_t pin_num_this)
+{
   size_t	input1;
   size_t	input2;
 
-  if (pin_num_this == 3 || pin_num_this == 4 || pin_num_this == 10 ||
-      pin_num_this == 11)
+  if (pin_num_this == 3 || pin_num_this == 10)
     {
-      if (pin_num_this == 3 || pin_num_this == 10)
-	{
-	  input1 = pin_num_this - 1;
-	  input2 = pin_num_this - 2;
-	}
-      else
-	{
-	  input1 = pin_num_this + 1;
-	  input2 = pin_num_this + 2;
-	}
-      if (!alreadyLink(input1) || !alreadyLink(input2))
-	throw Errors("Missing link for pin in 4001");
-      if (!(getValueForPin(input1) || getValueForPin(input2)))
-	return (nts::Tristate::TRUE);
-      return (nts::Tristate::FALSE);
+      input1 = pin_num_this - 1;
+      input2 = pin_num_this - 2;
     }
-  throw Errors("Compute on no output pin");
+  else
+    {
+      input1 = pin_num_this + 1;
+      input2 = pin_num_this + 2;
+    }
+  if (!alreadyLink(input1) || !alreadyLink(input2))
+    throw Errors("Missing link for pin in 4001");
+  if (!(getValueForPin(input1) || getValueForPin(input2)))
+    return (nts::Tristate::TRUE);
+  return (nts::Tristate::FALSE);
 }
 
 /*

@@ -5,9 +5,10 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar  1 18:51:53 2017 Victorien Fischer
-// Last update Wed Mar  1 19:09:15 2017 Victorien Fischer
+// Last update Fri Mar  3 00:08:21 2017 Arnaud WURMEL
 //
 
+#include <iostream>
 #include "Component.hpp"
 
 /*
@@ -51,6 +52,18 @@ bool		nts::Component::getValueForPin(size_t pin) const
       ++it;
     }
   return (false);
+}
+
+nts::Tristate	nts::Component::ComputeOnVSS(size_t pin) const
+{
+  std::cerr << "Asked compute on VSS, undefined state returned on pin : " << pin << std::endl;
+  return (nts::Tristate::UNDEFINED);
+}
+
+nts::Tristate	nts::Component::ComputeOnVDD(size_t pin) const
+{
+  std::cerr << "Asked compute on VDD, undefined state returned on pin : " << pin << std::endl;
+  return (nts::Tristate::UNDEFINED);
 }
 
 /*

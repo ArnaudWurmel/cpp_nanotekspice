@@ -5,12 +5,13 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar  1 18:45:53 2017 Victorien Fischer
-// Last update Wed Mar  1 18:58:36 2017 Victorien Fischer
+// Last update Fri Mar  3 00:07:51 2017 Arnaud WURMEL
 //
 
 #ifndef __COMPONENT_HPP__
 # define __COMPONENT_HPP__
 
+#include <map>
 #include <string>
 #include <vector>
 #include <utility>
@@ -34,8 +35,13 @@ namespace nts
     bool			alreadyLink(size_t) const;
     bool			getValueForPin(size_t) const;
 
+    virtual nts::Tristate		ComputeOnVSS(size_t) const;
+    virtual nts::Tristate		ComputeOnVDD(size_t) const;
+    virtual nts::Tristate		ComputeOutput(size_t) = 0;
+
   protected:
     std::vector<std::pair<size_t, std::pair<size_t, IComponent *> > >	_links;
+    std::map<size_t, std::function<nts::Tristate (size_t)> >	_computeFunctions;
   };
 }
 #endif
