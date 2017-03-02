@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 17:37:04 2017 Victorien Fischer
-// Last update Wed Mar  1 19:12:58 2017 Victorien Fischer
+// Last update Fri Mar  3 00:54:04 2017 Arnaud WURMEL
 //
 
 #include <string>
@@ -17,35 +17,36 @@
 */
 nts::c4011::c4011(const std::string &value) : Component(value)
 {
+  _computeFunctions.insert(std::make_pair(3, std::bind(&nts::c4001::ComputeOutput, this, std::placeholders::_1)));
+  _computeFunctions.insert(std::make_pair(4, std::bind(&nts::c4001::ComputeOutput, this, std::placeholders::_1)));
+  _computeFunctions.insert(std::make_pair(10, std::bind(&nts::c4001::ComputeOutput, this, std::placeholders::_1)));
+  _computeFunctions.insert(std::make_pair(11, std::bind(&nts::c4001::ComputeOutput, this, std::placeholders::_1)));
 }
 
 /*
 ** Computing
 */
-nts::Tristate	nts::c4011::Compute(size_t pin_num_this)
+nts::Tristate	nts::c4011::ComputeOutput(size_t pin_num_this)
 {
   size_t	input1;
   size_t	input2;
 
-  if (pin_num_this == 3 || pin_num_this == 4 || pin_num_this == 10 ||
-      pin_num_this == 11)
+  if (pin_num_this == 3 || pin_num_this == 10)
     {
-      if (pin_num_this == 3 || pin_num_this == 10)
-	{
-	  input1 = pin_num_this - 1;
-	  input2 = pin_num_this - 2;
-	}
-      else
-	{
-	  input1 = pin_num_this + 1;
-	  input2 = pin_num_this + 2;
-	}
-      if (!alreadyLink(input1) || !alreadyLink(input2))
-	throw Errors("Missing link for pin 4011");
-      if (!(getValueForPin(input1) && getValueForPin(input2)))
-	return (nts::Tristate::TRUE);
-      return (nts::Tristate::FALSE);
+      input1 = pin_num_this - 1;
+      input2 = pin_num_this - 2;
     }
+  else
+    {
+      input1 = pin_num_this + 1;
+      input2 = pin_num_this + 2;
+    }
+  if (!alreadyLink(input1) || !alreadyLink(input2))
+    throw Errors("Missing link for pin 4011");
+  if (!(getValueForPin(input1) && getValueForPin(input2)))
+    return (nts::Tristate::TRUE);
+  else
+    return (nts::Tristate::FALSE);
   throw Errors("Compute on no output pin");
   return (nts::Tristate::UNDEFINED);
 }

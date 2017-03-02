@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:17:27 2017 Victorien Fischer
-// Last update Fri Mar  3 00:20:45 2017 Arnaud WURMEL
+// Last update Fri Mar  3 00:49:12 2017 Arnaud WURMEL
 //
 
 #ifndef __C4008_HPP__
@@ -25,7 +25,6 @@ namespace nts
     virtual ~c4008();
     
   public:
-    virtual nts::Tristate	Compute(size_t pin_num_this = 1);
     virtual void		SetLink(size_t,	nts::IComponent &, size_t);
     virtual void		Dump(void) const;
     

@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Fri Mar  3 00:19:58 2017 Arnaud WURMEL
+// Last update Fri Mar  3 00:50:27 2017 Arnaud WURMEL
 //
 
 #include <string>
@@ -23,18 +23,6 @@ nts::c4001::c4001(const std::string &value) : Component(value)
   _computeFunctions.insert(std::make_pair(11, std::bind(&nts::c4001::ComputeOutput, this, std::placeholders::_1)));
   _computeFunctions.insert(std::make_pair(7, std::bind(&nts::Component::ComputeOnVSS, this, std::placeholders::_1)));
   _computeFunctions.insert(std::make_pair(14, std::bind(&nts::Component::ComputeOnVDD, this, std::placeholders::_1)));
-}
-
-/*
-** Computing
-*/
-nts::Tristate	nts::c4001::Compute(size_t pin_num_this)
-{
-  if (_computeFunctions.find(pin_num_this) != _computeFunctions.end())
-    {
-      return (_computeFunctions[pin_num_this](pin_num_this));
-    }
-  throw Errors("Compute on no output pin");
 }
 
 /*

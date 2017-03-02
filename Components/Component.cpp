@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar  1 18:51:53 2017 Victorien Fischer
-// Last update Fri Mar  3 00:08:21 2017 Arnaud WURMEL
+// Last update Fri Mar  3 00:50:42 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -35,6 +35,18 @@ bool		nts::Component::alreadyLink(size_t pin) const
       ++it;
     }
   return (false);
+}
+
+/*
+** Computing
+*/
+nts::Tristate	nts::Component::Compute(size_t pin_num_this)
+{
+  if (_computeFunctions.find(pin_num_this) != _computeFunctions.end())
+    {
+      return (_computeFunctions[pin_num_this](pin_num_this));
+    }
+  throw Errors("Compute on no output pin");
 }
 
 /*
