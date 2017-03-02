@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Tue Feb 28 14:29:15 2017 Arnaud WURMEL
+// Last update Thu Mar  2 14:19:07 2017 Victorien Fischer
 //
 
 #include <iostream>
@@ -13,27 +13,16 @@
 #include "Errors.hpp"
 #include "c4030.hpp"
 
-nts::c4030::c4030(const std::string &value) : _links(0)
+/*
+** Constructor
+*/
+nts::c4030::c4030(const std::string &value) : Component(value)
 {
-  (void)value;
 }
 
-bool	nts::c4030::getValueForPin(size_t pin)
-{
-  std::vector<std::pair<size_t, std::pair<size_t, IComponent *> > >::iterator	it;
-
-  it = _links.begin();
-  while (it != _links.end())
-    {
-      if ((*it).first == pin)
-  	{
-  	  return ((*it).second.second->Compute((*it).second.first));
-  	}
-      ++it;
-    }
-  return (false);
-}
-
+/*
+** Computing
+*/
 nts::Tristate	nts::c4030::Compute(size_t pin_num_this)
 {
   size_t	input1;
@@ -52,32 +41,18 @@ nts::Tristate	nts::c4030::Compute(size_t pin_num_this)
 	  input1 = pin_num_this + 1;
 	  input2 = pin_num_this + 2;
 	}
-      if (alreadyLink(input1) == false)
-	throw Errors("Missing link for pin in 4030");
-      if (alreadyLink(input2) == false)
+      if (!alreadyLink(input1) || !alreadyLink(input2))
 	throw Errors("Missing link for pin in 4030");
       if (getValueForPin(input1) ^ getValueForPin(input2))
 	return (nts::Tristate::TRUE);
       return (nts::Tristate::FALSE);
     }
   throw Errors("Compute on no output pin");
-  return (nts::Tristate::UNDEFINED);
 }
 
-bool	nts::c4030::alreadyLink(size_t pin)
-{
-  std::vector<std::pair<size_t, std::pair<size_t, IComponent *> > >::iterator	it;
-
-  it = _links.begin();
-  while (it != _links.end())
-    {
-      if ((*it).first == pin)
-	return (true);
-      ++it;
-    }
-  return (false);
-}
-
+/*
+** Setting Link
+*/
 void	nts::c4030::SetLink(size_t pin_num_this, nts::IComponent &component,
 			    size_t pin_num_target)
 {
@@ -91,12 +66,16 @@ void	nts::c4030::SetLink(size_t pin_num_this, nts::IComponent &component,
     throw Errors("Wrong pin for 4030");
 }
 
+/*
+** Dumping
+*/
 void	nts::c4030::Dump() const
 {
-
 }
 
+/*
+** Destructor
+*/
 nts::c4030::~c4030()
 {
-
 }

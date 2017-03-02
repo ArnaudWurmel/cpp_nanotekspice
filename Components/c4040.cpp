@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Wed Mar  1 23:11:41 2017 Arnaud WURMEL
+// Last update Thu Mar  2 14:21:09 2017 Victorien Fischer
 //
 
 #include <iostream>
@@ -13,11 +13,13 @@
 #include "c4040.hpp"
 #include "NanoTekSpice.hpp"
 
-nts::c4040::c4040(const std::string &value)
+/*
+** Constructor
+*/
+nts::c4040::c4040(const std::string &value) : Component(value)
 {
   size_t	i;
 
-  (void)value;
   i = 0;
   _sim_id = 0;
   while (i < 12)
@@ -39,22 +41,9 @@ nts::c4040::c4040(const std::string &value)
   _pins[1] = 0;
 }
 
-bool	nts::c4040::getValueForPin(size_t pin)
-{
-  std::vector<std::pair<size_t, std::pair<size_t, IComponent *> > >::iterator	it;
-
-  it = _links.begin();
-  while (it != _links.end())
-    {
-      if ((*it).first == pin)
-  	{
-  	  return ((*it).second.second->Compute((*it).second.first));
-  	}
-      ++it;
-    }
-  return (false);
-}
-
+/*
+** Resetting Output
+*/
 void	nts::c4040::resetOutput(void)
 {
   size_t	i;
@@ -67,6 +56,9 @@ void	nts::c4040::resetOutput(void)
     }
 }
 
+/*
+** Is Correct Pin
+*/
 bool	nts::c4040::isCorrectPin(size_t pin_num_this)
 {
   return ((pin_num_this >= 1 && pin_num_this <= 7) ||
@@ -74,6 +66,9 @@ bool	nts::c4040::isCorrectPin(size_t pin_num_this)
 	  pin_num_this == 9);
 }
 
+/*
+** Computing
+*/
 nts::Tristate	nts::c4040::Compute(size_t pin_num_this)
 {
   bool		clock;
@@ -111,10 +106,7 @@ nts::Tristate	nts::c4040::Compute(size_t pin_num_this)
 	    resetOutput();
 	}
       else
-	{
-	  throw Errors("Wrong pin for compute");
-	  return (nts::Tristate::UNDEFINED);
-	}
+	throw Errors("Wrong pin for compute");
     }
   _sim_id = nts::NanoTekSpice::_sim_id;
   if (_outputs[_pins[pin_num_this]] == 1)
@@ -122,6 +114,9 @@ nts::Tristate	nts::c4040::Compute(size_t pin_num_this)
   return (nts::Tristate::FALSE);
 }
 
+/*
+** Setting Link
+*/
 void	nts::c4040::SetLink(size_t pin_num_this, nts::IComponent &component,
 			    size_t pin_num_target)
 {
@@ -135,26 +130,16 @@ void	nts::c4040::SetLink(size_t pin_num_this, nts::IComponent &component,
     throw Errors("Wrong pin for 4040");
 }
 
-bool	nts::c4040::alreadyLink(size_t pin)
-{
-  std::vector<std::pair<size_t, std::pair<size_t, IComponent *> > >::iterator	it;
-
-  it = _links.begin();
-  while (it != _links.end())
-    {
-      if ((*it).first == pin)
-	return (true);
-      ++it;
-    }
-  return (false);
-}
-
+/*
+** Dumping
+*/
 void	nts::c4040::Dump() const
 {
-
 }
 
+/*
+** Destructor
+*/
 nts::c4040::~c4040()
 {
-
 }

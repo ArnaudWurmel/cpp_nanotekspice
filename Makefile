@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Fri Jan 27 19:13:05 2017 Arnaud WURMEL
-## Last update Wed Mar  1 23:08:27 2017 Arnaud WURMEL
+## Last update Thu Mar  2 14:39:39 2017 Victorien Fischer
 ##
 
 CC=		g++
@@ -36,6 +36,7 @@ SRCS=		$(SRC_PATH)/main.cpp \
 		$(COMPONENT)/cInput.cpp \
 		$(COMPONENT)/cOutput.cpp \
 		$(COMPONENT)/cClock.cpp \
+		$(COMPONENT)/Component.cpp \
 		$(COMPONENT)/ComponentFactory.cpp
 
 OBJS=		$(SRCS:.cpp=.o)

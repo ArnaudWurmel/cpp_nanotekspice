@@ -5,13 +5,16 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Wed Mar  1 18:27:18 2017 Victorien Fischer
+// Last update Thu Mar  2 14:14:55 2017 Victorien Fischer
 //
 
 #include <string>
 #include "Errors.hpp"
 #include "c4514.hpp"
 
+/*
+** Output Map
+*/
 const static size_t	_output[17][5] =
   {
     // A, B, C, D, SX
@@ -34,25 +37,16 @@ const static size_t	_output[17][5] =
     0
   };
 
-nts::c4514::c4514(const std::string &value) : _links(0)
+/*
+** Constructor
+*/
+nts::c4514::c4514(const std::string &value) : Component(value)
 {
-  (void)value;
 }
 
-bool		nts::c4514::getValueForPin(size_t pin)
-{
-  std::vector<std::pair<size_t, std::pair<size_t, IComponent *> > >::iterator	it;
-
-  it = _links.begin();
-  while (it != _links.end())
-    {
-      if ((*it).first == pin)
-	return ((*it).second.second->Compute((*it).second.first));
-      ++it;
-    }
-  return (false);
-}
-
+/*
+** Getting Output for Pin
+*/
 nts::Tristate		nts::c4514::getOutputForPin(size_t pin)
 {
   int			i;
@@ -67,6 +61,9 @@ nts::Tristate		nts::c4514::getOutputForPin(size_t pin)
   return (nts::Tristate::FALSE);
 }
 
+/*
+** Computing
+*/
 nts::Tristate	nts::c4514::Compute(size_t pin)
 {
   if ((pin >= 4 && pin <= 11) || (pin >= 13 && pin <= 20))
@@ -84,20 +81,9 @@ nts::Tristate	nts::c4514::Compute(size_t pin)
   return (nts::Tristate::UNDEFINED);
 }
 
-bool	nts::c4514::alreadyLink(size_t pin)
-{
-  std::vector<std::pair<size_t, std::pair<size_t, IComponent *> > >::iterator	it;
-
-  it = _links.begin();
-  while (it != _links.end())
-    {
-      if ((*it).first == pin)
-	return (true);
-      ++it;
-    }
-  return (false);
-}
-
+/*
+** Setting Link
+*/
 void	nts::c4514::SetLink(size_t pin_num_this, nts::IComponent &component,
 			    size_t pin_num_target)
 {
@@ -108,12 +94,16 @@ void	nts::c4514::SetLink(size_t pin_num_this, nts::IComponent &component,
   _links.push_back(std::make_pair(pin_num_this, std::make_pair(pin_num_target, &component)));
 }
 
+/*
+** Dumping
+*/
 void	nts::c4514::Dump() const
 {
-
 }
 
+/*
+** Destructor
+*/
 nts::c4514::~c4514()
 {
-
 }

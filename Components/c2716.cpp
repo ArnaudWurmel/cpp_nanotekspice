@@ -5,33 +5,48 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Wed Feb 15 20:56:55 2017 Arnaud WURMEL
+// Last update Thu Mar  2 14:40:29 2017 Victorien Fischer
 //
 
 #include "c2716.hpp"
 
-nts::c2716::c2716(const std::string &value)
+/*
+** Constructor
+*/
+nts::c2716::c2716(const std::string &value) : Component(value)
 {
-  (void)value;
 }
 
-nts::c2716::~c2716()
-{
-
-}
-
+/*
+** Computing
+*/
 nts::Tristate	nts::c2716::Compute(size_t pin_num_this)
 {
-
+  (void)pin_num_this;
+  return (nts::Tristate::UNDEFINED);
 }
 
+/*
+** Setting Link
+*/
 void	nts::c2716::SetLink(size_t pin_num_this, nts::IComponent &component,
 			    size_t pin_num_target)
 {
-
+  (void)pin_num_this;
+  (void)component;
+  (void)pin_num_target;
 }
 
+/*
+** Dumping
+*/
 void	nts::c2716::Dump() const
 {
+}
 
+/*
+** Destructor
+*/
+nts::c2716::~c2716()
+{
 }

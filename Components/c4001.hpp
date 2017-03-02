@@ -5,21 +5,19 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:17:27 2017 Victorien Fischer
-// Last update Tue Feb 28 18:09:26 2017 Victorien Fischer
+// Last update Thu Mar  2 14:36:15 2017 Victorien Fischer
 //
 
 #ifndef __C4001_HPP__
 # define __C4001_HPP__
 
 #include <string>
-#include <vector>
-#include <utility>
-#include <functional>
+#include "Component.hpp"
 #include "IComponent.hpp"
 
 namespace nts
 {
-  class	c4001 : public nts::IComponent
+  class	c4001 : public nts::Component
   {
   public:
     c4001(const std::string &);
@@ -27,17 +25,8 @@ namespace nts
     
   public:
     virtual nts::Tristate	Compute(size_t pin_num_this = 1);
-    virtual void		SetLink(size_t pin_num_this,
-					nts::IComponent &component,
-					size_t pin_num_target);
-    virtual void		Dump(void) const;
-
-  public:
-    bool			alreadyLink(size_t);
-    bool			getValueForPin(size_t);
-
-  private:
-    std::vector<std::pair<size_t, std::pair<size_t, IComponent *> > >	_links;
+    virtual void		SetLink(size_t,	nts::IComponent &, size_t);
+    virtual void		Dump() const;
   };
 }
 

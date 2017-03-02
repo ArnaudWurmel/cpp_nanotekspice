@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Wed Mar  1 15:32:07 2017 Arnaud WURMEL
+// Last update Wed Mar  1 19:11:50 2017 Victorien Fischer
 //
 
 #include <iostream>
@@ -13,31 +13,20 @@
 #include "Errors.hpp"
 #include "c4008.hpp"
 
-nts::c4008::c4008(const std::string &value) : _outputs(14), _links(0)
+/*
+** Constructor
+*/
+nts::c4008::c4008(const std::string &value) : Component(value), _outputs(14)
 {
-  (void)value;
   _outputs[10] = std::make_pair(6, 7);
   _outputs[11] = std::make_pair(4, 5);
   _outputs[12] = std::make_pair(2, 3);
   _outputs[13] = std::make_pair(1, 15);
 }
 
-bool	nts::c4008::getValueForPin(size_t pin)
-{
-  std::vector<std::pair<size_t, std::pair<size_t, IComponent *> > >::iterator	it;
-
-  it = _links.begin();
-  while (it != _links.end())
-    {
-      if ((*it).first == pin)
-  	{
-  	  return ((*it).second.second->Compute((*it).second.first));
-  	}
-      ++it;
-    }
-  return (false);
-}
-
+/*
+** Computing
+*/
 nts::Tristate	nts::c4008::Compute(size_t pin_num_this)
 {
   size_t	i;
@@ -77,20 +66,9 @@ nts::Tristate	nts::c4008::Compute(size_t pin_num_this)
   return (input[pin_num_this - 10] == 1 ? nts::Tristate::TRUE : nts::Tristate::FALSE);
 }
 
-bool	nts::c4008::alreadyLink(size_t pin)
-{
-  std::vector<std::pair<size_t, std::pair<size_t, IComponent *> > >::iterator	it;
-
-  it = _links.begin();
-  while (it != _links.end())
-    {
-      if ((*it).first == pin)
-	return (true);
-      ++it;
-    }
-  return (false);
-}
-
+/*
+** Setting Link
+*/
 void	nts::c4008::SetLink(size_t pin_num_this, nts::IComponent &component,
 			    size_t pin_num_target)
 {
@@ -106,11 +84,16 @@ void	nts::c4008::SetLink(size_t pin_num_this, nts::IComponent &component,
   throw Errors("Wrong pin for 4008");
 }
 
+/*
+** Dumping
+*/
 void	nts::c4008::Dump() const
 {
-  
 }
 
+/*
+** Destructor
+*/
 nts::c4008::~c4008()
 {
 

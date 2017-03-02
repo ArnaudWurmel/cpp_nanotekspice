@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Wed Mar  1 16:48:33 2017 Arnaud WURMEL
+// Last update Thu Mar  2 14:17:53 2017 Victorien Fischer
 //
 
 #include <iostream>
@@ -13,9 +13,11 @@
 #include "Errors.hpp"
 #include "c4069.hpp"
 
-nts::c4069::c4069(const std::string &value)
+/*
+** Constructor
+*/
+nts::c4069::c4069(const std::string &value) : Component(value)
 {
-  (void)value;
   _outputs[2] = 1;
   _outputs[4] = 3;
   _outputs[6] = 5;
@@ -24,6 +26,9 @@ nts::c4069::c4069(const std::string &value)
   _outputs[12] = 13;
 }
 
+/*
+** Computing
+*/
 nts::Tristate	nts::c4069::Compute(size_t pin_num_this)
 {
   if (!alreadyLink(_outputs[pin_num_this]))
@@ -33,34 +38,9 @@ nts::Tristate	nts::c4069::Compute(size_t pin_num_this)
   return (nts::Tristate::TRUE);
 }
 
-bool		nts::c4069::getValueForPin(size_t pin)
-{
-  std::vector<std::pair<size_t, std::pair<size_t, IComponent *> > >::iterator	it;
-
-  it = _links.begin();
-  while (it != _links.end())
-    {
-      if ((*it).first == pin)
-	return ((*it).second.second->Compute((*it).second.first));
-      ++it;
-    }
-  return (false);
-}
-
-bool	nts::c4069::alreadyLink(size_t pin)
-{
-  std::vector<std::pair<size_t, std::pair<size_t, IComponent *> > >::iterator	it;
-
-  it = _links.begin();
-  while (it != _links.end())
-    {
-      if ((*it).first == pin)
-	return ((*it).second.second->Compute((*it).second.first));
-      ++it;
-    }
-  return (false);
-}
-
+/*
+** Setting Link
+*/
 void	nts::c4069::SetLink(size_t pin_num_this, nts::IComponent &component,
 			    size_t pin_num_target)
 {
@@ -74,12 +54,16 @@ void	nts::c4069::SetLink(size_t pin_num_this, nts::IComponent &component,
   throw Errors("Wrong link for pin on 4069");
 }
 
+/*
+** Dumping
+*/
 void	nts::c4069::Dump() const
 {
-
 }
 
+/*
+** Destructor
+*/
 nts::c4069::~c4069()
 {
-
 }

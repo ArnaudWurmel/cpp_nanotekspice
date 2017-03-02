@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:17:27 2017 Victorien Fischer
-// Last update Wed Mar  1 15:13:55 2017 Arnaud WURMEL
+// Last update Thu Mar  2 14:35:25 2017 Victorien Fischer
 //
 
 #ifndef __C4069_HPP__
@@ -13,13 +13,12 @@
 
 #include <string>
 #include <vector>
-#include <utility>
-#include <functional>
+#include "Component.hpp"
 #include "IComponent.hpp"
 
 namespace nts
 {
-  class	c4069 : public nts::IComponent
+  class	c4069 : public nts::Component
   {
   public:
     c4069(const std::string &);
@@ -27,18 +26,11 @@ namespace nts
     
   public:
     virtual nts::Tristate	Compute(size_t pin_num_this = 1);
-    virtual void		SetLink(size_t pin_num_this,
-					nts::IComponent &component,
-					size_t pin_num_target);
-    virtual void		Dump(void) const;
-
-  public:
-    bool			alreadyLink(size_t);
-    bool			getValueForPin(size_t);
-
+    virtual void		SetLink(size_t,	nts::IComponent &, size_t);
+    virtual void		Dump() const;
+    
   private:
-    std::vector<std::pair<size_t, std::pair<size_t, IComponent *> > >	_links;
-    std::vector<size_t>	_outputs;
+    std::vector<size_t>		_outputs;
   };
 }
 

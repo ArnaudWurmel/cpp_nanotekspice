@@ -5,22 +5,20 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:17:27 2017 Victorien Fischer
-// Last update Wed Mar  1 23:12:06 2017 Arnaud WURMEL
+// Last update Thu Mar  2 14:42:11 2017 Victorien Fischer
 //
 
 #ifndef __C4040_HPP__
 # define __C4040_HPP__
 
 #include <string>
-#include <vector>
-#include <functional>
-#include <utility>
 #include <map>
+#include "Component.hpp"
 #include "IComponent.hpp"
 
 namespace nts
 {
-  class	c4040 : public nts::IComponent
+  class	c4040 : public nts::Component
   {
   public:
     c4040(const std::string &);
@@ -28,19 +26,14 @@ namespace nts
     
   public:
     virtual nts::Tristate	Compute(size_t pin_num_this = 1);
-    virtual void		SetLink(size_t pin_num_this,
-					nts::IComponent &component,
-					size_t pin_num_target);
-    virtual void		Dump(void) const;
+    virtual void		SetLink(size_t,	nts::IComponent &, size_t);
+    virtual void		Dump() const;
 
   public:
-    bool			alreadyLink(size_t);
-    bool			getValueForPin(size_t);
     bool			isCorrectPin(size_t);
     void			resetOutput(void);
     
   private:
-    std::vector<std::pair<size_t, std::pair<size_t, IComponent *> > >	_links;
     std::map<size_t, size_t>	_pins;
     char			_outputs[12];
     size_t			_sim_id;
