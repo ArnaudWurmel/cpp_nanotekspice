@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:52:50 2017 Arnaud WURMEL
-// Last update Wed Feb 15 21:15:27 2017 Arnaud WURMEL
+// Last update Thu Mar  2 15:27:09 2017 Arnaud WURMEL
 //
 
 #include <string>
@@ -49,8 +49,6 @@ void		Helper::epurStr(std::string& str)
       else
 	str.erase(it);
     }
-  if (*it == ' ' || *it == '\t')
-    str.erase(it);
 }
 
 /*
