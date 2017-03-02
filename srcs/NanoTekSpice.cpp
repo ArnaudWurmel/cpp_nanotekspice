@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:24 2017 Arnaud WURMEL
-// Last update Wed Mar  1 23:05:26 2017 Arnaud WURMEL
+// Last update Thu Mar  2 19:18:49 2017 Arnaud WURMEL
 //
 
 #include <map>
@@ -34,6 +34,7 @@ nts::NanoTekSpice::NanoTekSpice() : _comp(0), _inputs(0), _outputs(0), _clocks(0
 {
   _tree = NULL;
   _continue = true;
+  _input_setted = false;
   _action["exit"] = &nts::NanoTekSpice::exit;
   _action["simulate"] = &nts::NanoTekSpice::simulate;
   _action["loop"] = &nts::NanoTekSpice::loop;
@@ -109,6 +110,7 @@ void		nts::NanoTekSpice::start(int ac, char **av)
 	throw Errors("Unknown input as parameters");
       ++i;
     }
+  _input_setted = true;
   it = _inputs->begin();
   while (it != _inputs->end())
     {
@@ -238,6 +240,11 @@ void	nts::NanoTekSpice::setInputValue(std::string const& input)
     {
       if ((*it_clock).first.compare(name) == 0)
 	{
+	  if (_input_setted)
+	    {
+	      std::cerr << "Can't set : " << name << ": type of clock between 2 simulations" << std::endl;
+	      return ;
+	    }
 	  if (value.compare("0") == 0)
 	    (*it_clock).second->setValue(nts::Tristate::FALSE);
 	  else if (value.compare("1") == 0)
