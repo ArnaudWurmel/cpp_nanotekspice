@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:24 2017 Arnaud WURMEL
-// Last update Thu Mar  2 19:18:49 2017 Arnaud WURMEL
+// Last update Fri Mar  3 01:06:21 2017 Arnaud WURMEL
 //
 
 #include <map>
@@ -193,11 +193,18 @@ void	nts::NanoTekSpice::exit()
 void	nts::NanoTekSpice::display()
 {
   std::vector<std::pair<std::string, cOutput *> >::const_iterator	it;
+  nts::Tristate	state;
 
   it = _outputs->begin();
   while (it != _outputs->end())
     {
-      std::cout << (*it).first << "=" << (*it).second->getValue() << std::endl;
+      std::cout << (*it).first << "=";
+      state = (*it).second->getValue();
+      if (state == nts::Tristate::UNDEFINED)
+	std::cout << "U";
+      else
+	std::cout << state;
+      std::cout << std::endl;
       ++it;
     }
 }
