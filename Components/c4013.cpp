@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Fri Mar  3 08:30:46 2017 Victorien Fischer
+// Last update Fri Mar  3 14:09:40 2017 Arnaud WURMEL
 //
 
 #include "c4013.hpp"
@@ -103,7 +103,7 @@ nts::Tristate	nts::c4013::ComputeOutput(size_t pin_num_this)
 void		nts::c4013::SetLink(size_t pin_num_this, nts::IComponent &component,
 			    size_t pin_num_target)
 {
-  if ((pin_num_this >= 3 && pin_num_this <= 6) || (pin_num_this >= 8 && pin_num_this <= 11))
+  if ((pin_num_this >= 1 && pin_num_this <= 6) || (pin_num_this >= 8 && pin_num_this <= 13))
     {
       if (alreadyLink(pin_num_this))
 	throw Errors("Pin already linked for 4013");

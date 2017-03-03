@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:24 2017 Arnaud WURMEL
-// Last update Fri Mar  3 13:32:21 2017 Arnaud WURMEL
+// Last update Fri Mar  3 14:00:47 2017 Arnaud WURMEL
 //
 
 #include <map>
@@ -420,5 +420,5 @@ void	nts::NanoTekSpice::sanityNameCheck(void) const
 bool	nts::NanoTekSpice::sortComparator(std::pair<std::string, IComponent *> first,
 					  std::pair<std::string, IComponent *> second)
 {
-  return (first.first.size() < second.first.size() || !first.first.compare(second.first));
+  return (first.first.compare(second.first) < 0);
 }
