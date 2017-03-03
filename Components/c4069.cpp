@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Thu Mar  2 14:17:53 2017 Victorien Fischer
+// Last update Fri Mar  3 01:13:24 2017 Victorien Fischer
 //
 
 #include <iostream>
@@ -24,12 +24,26 @@ nts::c4069::c4069(const std::string &value) : Component(value)
   _outputs[8] = 9;
   _outputs[10] = 11;
   _outputs[12] = 13;
+  addComputeFunction(2);
+  addComputeFunction(4);
+  addComputeFunction(6);
+  addComputeFunction(8);
+  addComputeFunction(10);
+  addComputeFunction(12);
 }
 
 /*
-** Computing
+** Linking a pin to a compute function
 */
-nts::Tristate	nts::c4069::Compute(size_t pin_num_this)
+void	nts::c4069::addComputeFunction(size_t pin)
+{
+  _computeFunctions.insert(std::make_pair(pin, std::bind(&nts::c4069::ComputeOutput, this, std::placeholders::_1)));
+}
+
+/*
+** Compute Output
+*/
+nts::Tristate	nts::c4069::ComputeOutput(size_t pin_num_this)
 {
   if (!alreadyLink(_outputs[pin_num_this]))
     throw Errors("Missing link for c4069");

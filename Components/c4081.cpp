@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Thu Mar  2 14:16:49 2017 Victorien Fischer
+// Last update Fri Mar  3 01:04:47 2017 Victorien Fischer
 //
 
 #include <iostream>
@@ -18,36 +18,43 @@
 */
 nts::c4081::c4081(const std::string &value) : Component(value)
 {
+  addComputeFunction(3);
+  addComputeFunction(4);
+  addComputeFunction(10);
+  addComputeFunction(11);
 }
 
 /*
-** Computing
+** Link a pin to a compute function
 */
-nts::Tristate	nts::c4081::Compute(size_t pin_num_this)
+void		nts::c4081::addComputeFunction(size_t pin)
+{
+  _computeFunctions.insert(std::make_pair(pin, std::bind(&nts::c4081::ComputeOutput, this, std::placeholders::_1)));
+}
+
+/*
+** Compute on output
+*/
+nts::Tristate	nts::c4081::ComputeOutput(size_t pin_num_this)
 {
   size_t	input1;
   size_t	input2;
 
-  if (pin_num_this == 3 || pin_num_this == 4 || pin_num_this == 10 ||
-      pin_num_this == 11)
+  if (pin_num_this == 3 || pin_num_this == 10)
     {
-      if (pin_num_this == 3 || pin_num_this == 10)
-	{
-	  input1 = pin_num_this - 1;
-	  input2 = pin_num_this - 2;
-	}
-      else
-	{
-	  input1 = pin_num_this + 1;
-	  input2 = pin_num_this + 2;
-	}
-      if (!alreadyLink(input1) || !alreadyLink(input2))
-	throw Errors("Missing link for pin in 4081");
-      if (getValueForPin(input1) && getValueForPin(input2))
-	return (nts::Tristate::TRUE);
-      return (nts::Tristate::FALSE);
+      input1 = pin_num_this - 1;
+      input2 = pin_num_this - 2;
     }
-  throw Errors("Compute on no output pin");
+  else
+    {
+      input1 = pin_num_this + 1;
+      input2 = pin_num_this + 2;
+    }
+  if (!alreadyLink(input1) || !alreadyLink(input2))
+    throw Errors("Missing link for pin in 4081");
+  if (getValueForPin(input1) && getValueForPin(input2))
+    return (nts::Tristate::TRUE);
+  return (nts::Tristate::FALSE);
 }
 
 /*

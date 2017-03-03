@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Thu Mar  2 14:14:55 2017 Victorien Fischer
+// Last update Fri Mar  3 01:11:17 2017 Victorien Fischer
 //
 
 #include <string>
@@ -42,6 +42,20 @@ const static size_t	_output[17][5] =
 */
 nts::c4514::c4514(const std::string &value) : Component(value)
 {
+  size_t	i;
+
+  i = 3;
+  while (++i < 21)
+    if (i != 12)
+      addComputeFunction(i);
+}
+
+/*
+** Link a pin to a compute function
+*/
+void		nts::c4514::addComputeFunction(size_t pin)
+{
+  _computeFunctions.insert(std::make_pair(pin, std::bind(&nts::c4514::ComputeOutput, this, std::placeholders::_1)));
 }
 
 /*
@@ -64,20 +78,16 @@ nts::Tristate		nts::c4514::getOutputForPin(size_t pin)
 /*
 ** Computing
 */
-nts::Tristate	nts::c4514::Compute(size_t pin)
+nts::Tristate	nts::c4514::ComputeOutput(size_t pin)
 {
-  if ((pin >= 4 && pin <= 11) || (pin >= 13 && pin <= 20))
+  if (getValueForPin(1))
+    return (nts::Tristate::FALSE);
+  else
     {
-      if (getValueForPin(1))
-	return (nts::Tristate::FALSE);
-      else
-	{
-	  if (!alreadyLink(2) || !alreadyLink(3) || !alreadyLink(21) || !alreadyLink(22))
-	    throw Errors("Missing link for pin in 4514");
-	  return (getOutputForPin(pin));
-	}
+      if (!alreadyLink(2) || !alreadyLink(3) || !alreadyLink(21) || !alreadyLink(22))
+	throw Errors("Missing link for pin in 4514");
+      return (getOutputForPin(pin));
     }
-  throw Errors("Compute on no output pin");
   return (nts::Tristate::UNDEFINED);
 }
 

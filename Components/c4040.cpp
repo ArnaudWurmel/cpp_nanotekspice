@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Thu Mar  2 14:21:09 2017 Victorien Fischer
+// Last update Fri Mar  3 00:58:16 2017 Victorien Fischer
 //
 
 #include <iostream>
@@ -39,6 +39,19 @@ nts::c4040::c4040(const std::string &value) : Component(value)
   _pins[14] = 2;
   _pins[15] = 1;
   _pins[1] = 0;
+  addComputeFunction(1);
+  addComputeFunction(7);
+  addComputeFunction(9);
+  addComputeFunction(12);
+  addComputeFunction(15);
+}
+
+/*
+** Link a pin to a compute function
+*/
+void	nts::c4040::addComputeFunction(size_t pin)
+{
+  _computeFunctions.insert(std::make_pair(pin, std::bind(&nts::c4040::ComputeOutput, this, std::placeholders::_1)));
 }
 
 /*
@@ -67,9 +80,9 @@ bool	nts::c4040::isCorrectPin(size_t pin_num_this)
 }
 
 /*
-** Computing
+** Compute output
 */
-nts::Tristate	nts::c4040::Compute(size_t pin_num_this)
+nts::Tristate	nts::c4040::ComputeOutput(size_t pin_num_this)
 {
   bool		clock;
   bool		reset;

@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:17:27 2017 Victorien Fischer
-// Last update Thu Mar  2 14:42:11 2017 Victorien Fischer
+// Last update Fri Mar  3 00:58:40 2017 Victorien Fischer
 //
 
 #ifndef __C4040_HPP__
@@ -25,13 +25,16 @@ namespace nts
     virtual ~c4040();
     
   public:
-    virtual nts::Tristate	Compute(size_t pin_num_this = 1);
     virtual void		SetLink(size_t,	nts::IComponent &, size_t);
     virtual void		Dump() const;
+    virtual nts::Tristate	ComputeOutput(size_t);
 
   public:
     bool			isCorrectPin(size_t);
     void			resetOutput(void);
+
+  private:
+    void			addComputeFunction(size_t);
     
   private:
     std::map<size_t, size_t>	_pins;
