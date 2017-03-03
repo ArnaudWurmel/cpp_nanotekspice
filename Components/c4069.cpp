@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Fri Mar  3 08:42:14 2017 Victorien Fischer
+// Last update Fri Mar  3 13:56:06 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -16,7 +16,7 @@
 /*
 ** Constructor
 */
-nts::c4069::c4069(const std::string &value) : Component(value)
+nts::c4069::c4069(const std::string &value) : Component(value), _outputs(13)
 {
   _outputs[2] = 1;
   _outputs[4] = 3;
