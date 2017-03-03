@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Fri Mar  3 00:58:16 2017 Victorien Fischer
+// Last update Fri Mar  3 01:21:38 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -40,9 +40,16 @@ nts::c4040::c4040(const std::string &value) : Component(value)
   _pins[15] = 1;
   _pins[1] = 0;
   addComputeFunction(1);
+  addComputeFunction(2);
+  addComputeFunction(3);
+  addComputeFunction(4);
+  addComputeFunction(5);
+  addComputeFunction(6);
   addComputeFunction(7);
   addComputeFunction(9);
   addComputeFunction(12);
+  addComputeFunction(13);
+  addComputeFunction(14);
   addComputeFunction(15);
 }
 
