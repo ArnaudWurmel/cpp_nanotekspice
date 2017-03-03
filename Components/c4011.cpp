@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 17:37:04 2017 Victorien Fischer
-// Last update Fri Mar  3 01:20:28 2017 Victorien Fischer
+// Last update Fri Mar  3 08:29:25 2017 Victorien Fischer
 //
 
 #include <string>
@@ -21,6 +21,8 @@ nts::c4011::c4011(const std::string &value) : Component(value)
   addComputeFunction(4);
   addComputeFunction(10);
   addComputeFunction(11);
+  _computeFunctions.insert(std::make_pair(7, std::bind(&nts::c4011::ComputeOnVSS, this, std::placeholders::_1)));
+  _computeFunctions.insert(std::make_pair(14, std::bind(&nts::c4011::ComputeOnVDD, this, std::placeholders::_1)));
 }
 
 /*

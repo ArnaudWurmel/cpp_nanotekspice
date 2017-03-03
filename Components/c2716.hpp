@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:17:27 2017 Victorien Fischer
-// Last update Fri Mar  3 00:51:17 2017 Arnaud WURMEL
+// Last update Fri Mar  3 08:33:37 2017 Victorien Fischer
 //
 
 #ifndef __C2716_HPP__
@@ -29,6 +29,9 @@ namespace nts
 
   public:
     virtual nts::Tristate	ComputeOutput(size_t);
+
+  private:
+    void			addComputeFunction(size_t);
   };
 }
 

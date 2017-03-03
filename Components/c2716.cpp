@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Fri Mar  3 00:51:14 2017 Arnaud WURMEL
+// Last update Fri Mar  3 08:25:50 2017 Victorien Fischer
 //
 
 #include "c2716.hpp"
@@ -15,7 +15,16 @@
 */
 nts::c2716::c2716(const std::string &value) : Component(value)
 {
-  
+  _computeFunctions.insert(std::make_pair(12, std::bind(&nts::c2716::ComputeOnVSS, this, std::placeholders::_1)));
+  _computeFunctions.insert(std::make_pair(24, std::bind(&nts::c2716::ComputeOnVDD, this, std::placeholders::_1)));
+}
+
+/*
+** Link a pin to a compute function
+*/
+void		nts::c2716::addComputeFunction(size_t pin)
+{
+  _computeFunctions.insert(std::make_pair(pin, std::bind(&nts::c2716::ComputeOutput, this, std::placeholders::_1)));
 }
 
 /*

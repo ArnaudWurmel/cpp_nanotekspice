@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Fri Mar  3 01:07:50 2017 Arnaud WURMEL
+// Last update Fri Mar  3 08:57:01 2017 Victorien Fischer
 //
 
 #include "c4801.hpp"
@@ -15,6 +15,8 @@
 */
 nts::c4801::c4801(const std::string &value) : Component(value)
 {
+  _computeFunctions.insert(std::make_pair(12, std::bind(&nts::c4801::ComputeOnVSS, this, std::placeholders::_1)));
+  _computeFunctions.insert(std::make_pair(24, std::bind(&nts::c4801::ComputeOnVDD, this, std::placeholders::_1)));
 }
 
 /*

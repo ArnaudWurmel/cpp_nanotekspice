@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Fri Mar  3 01:11:17 2017 Victorien Fischer
+// Last update Fri Mar  3 08:50:42 2017 Victorien Fischer
 //
 
 #include <string>
@@ -48,6 +48,8 @@ nts::c4514::c4514(const std::string &value) : Component(value)
   while (++i < 21)
     if (i != 12)
       addComputeFunction(i);
+  _computeFunctions.insert(std::make_pair(12, std::bind(&nts::c4514::ComputeOnVSS, this, std::placeholders::_1)));
+  _computeFunctions.insert(std::make_pair(24, std::bind(&nts::c4514::ComputeOnVDD, this, std::placeholders::_1)));
 }
 
 /*

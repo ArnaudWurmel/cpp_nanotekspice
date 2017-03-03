@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Fri Mar  3 01:27:12 2017 Victorien Fischer
+// Last update Fri Mar  3 08:32:51 2017 Victorien Fischer
 //
 
 #include <iostream>
@@ -22,6 +22,8 @@ nts::c4030::c4030(const std::string &value) : Component(value)
   addComputeFunction(4);
   addComputeFunction(10);
   addComputeFunction(11);
+  _computeFunctions.insert(std::make_pair(7, std::bind(&nts::c4030::ComputeOnVSS, this, std::placeholders::_1)));
+  _computeFunctions.insert(std::make_pair(14, std::bind(&nts::c4030::ComputeOnVDD, this, std::placeholders::_1)));
 }
 
 /*

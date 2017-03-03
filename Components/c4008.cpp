@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Fri Mar  3 01:18:28 2017 Victorien Fischer
+// Last update Fri Mar  3 08:27:31 2017 Victorien Fischer
 //
 
 #include <iostream>
@@ -27,6 +27,8 @@ nts::c4008::c4008(const std::string &value) : Component(value), _outputs(14)
   addComputeFunction(12);
   addComputeFunction(13);
   addComputeFunction(14);
+  _computeFunctions.insert(std::make_pair(8, std::bind(&nts::c4008::ComputeOnVSS, this, std::placeholders::_1)));
+  _computeFunctions.insert(std::make_pair(16, std::bind(&nts::c4008::ComputeOnVDD, this, std::placeholders::_1)));
 }
 
 /*

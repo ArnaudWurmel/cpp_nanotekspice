@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Fri Mar  3 01:07:27 2017 Victorien Fischer
+// Last update Fri Mar  3 08:48:11 2017 Victorien Fischer
 //
 
 #include "c4094.hpp"
@@ -15,6 +15,8 @@
 */
 nts::c4094::c4094(const std::string &value) : Component(value)
 {
+  _computeFunctions.insert(std::make_pair(8, std::bind(&nts::c4094::ComputeOnVSS, this, std::placeholders::_1)));
+  _computeFunctions.insert(std::make_pair(16, std::bind(&nts::c4094::ComputeOnVDD, this, std::placeholders::_1)));
 }
 
 /*
@@ -37,8 +39,7 @@ nts::Tristate	nts::c4094::ComputeOutput(size_t pin_num_this)
 /*
 ** Setting Link
 */
-void	nts::c4094::SetLink(size_t pin_num_this, nts::IComponent &component,
-			    size_t pin_num_target)
+void	nts::c4094::SetLink(size_t pin_num_this, nts::IComponent &component, size_t pin_num_target)
 {
   (void)pin_num_this;
   (void)component;

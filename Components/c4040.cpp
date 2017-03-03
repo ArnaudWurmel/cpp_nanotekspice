@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Fri Mar  3 01:21:38 2017 Arnaud WURMEL
+// Last update Fri Mar  3 08:40:51 2017 Victorien Fischer
 //
 
 #include <iostream>
@@ -51,6 +51,8 @@ nts::c4040::c4040(const std::string &value) : Component(value)
   addComputeFunction(13);
   addComputeFunction(14);
   addComputeFunction(15);
+  _computeFunctions.insert(std::make_pair(8, std::bind(&nts::c4040::ComputeOnVSS, this, std::placeholders::_1)));
+  _computeFunctions.insert(std::make_pair(16, std::bind(&nts::c4040::ComputeOnVDD, this, std::placeholders::_1)));
 }
 
 /*
