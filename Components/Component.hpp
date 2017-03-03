@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar  1 18:45:53 2017 Victorien Fischer
-// Last update Fri Mar  3 00:07:51 2017 Arnaud WURMEL
+// Last update Fri Mar  3 01:02:51 2017 Arnaud WURMEL
 //
 
 #ifndef __COMPONENT_HPP__
@@ -27,7 +27,7 @@ namespace nts
     virtual ~Component();
 
   public:
-    virtual nts::Tristate	Compute(size_t pin_num_this = 1) = 0;
+    virtual nts::Tristate	Compute(size_t pin_num_this = 1);
     virtual void		SetLink(size_t, nts::IComponent &, size_t) = 0;
     virtual void		Dump() const = 0;
 

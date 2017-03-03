@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Thu Mar  2 20:27:53 2017 Victorien Fischer
+// Last update Fri Mar  3 01:01:22 2017 Arnaud WURMEL
 //
 
 #include "c4013.hpp"
@@ -16,6 +16,10 @@
 */
 nts::c4013::c4013(const std::string &value) : Component(value)
 {
+  _computeFunctions.insert(std::make_pair(1, std::bind(&nts::c4013::ComputeOutput, this, std::placeholders::_1)));
+  _computeFunctions.insert(std::make_pair(2, std::bind(&nts::c4013::ComputeOutput, this, std::placeholders::_1)));
+  _computeFunctions.insert(std::make_pair(12, std::bind(&nts::c4013::ComputeOutput, this, std::placeholders::_1)));
+  _computeFunctions.insert(std::make_pair(13, std::bind(&nts::c4013::ComputeOutput, this, std::placeholders::_1)));
 }
 
 /*
@@ -36,7 +40,7 @@ nts::Tristate	nts::c4013::getOutputValue(bool set, bool reset, bool data) const
 /*
 ** Computing
 */
-nts::Tristate	nts::c4013::Compute(size_t pin_num_this)
+nts::Tristate	nts::c4013::ComputeOutput(size_t pin_num_this)
 {
   size_t	set;
   size_t       	reset;

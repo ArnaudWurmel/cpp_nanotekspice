@@ -5,10 +5,11 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar  1 18:51:53 2017 Victorien Fischer
-// Last update Fri Mar  3 00:50:42 2017 Arnaud WURMEL
+// Last update Fri Mar  3 01:02:13 2017 Arnaud WURMEL
 //
 
 #include <iostream>
+#include "Errors.hpp"
 #include "Component.hpp"
 
 /*
