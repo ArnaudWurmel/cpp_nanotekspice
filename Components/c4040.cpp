@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Fri Mar  3 14:05:42 2017 Arnaud WURMEL
+// Last update Fri Mar  3 15:25:40 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -16,7 +16,7 @@
 /*
 ** Constructor
 */
-nts::c4040::c4040(const std::string &value) : Component(value)
+nts::c4040::c4040(const std::string &value) : Component(value), _prev_state(nts::Tristate::UNDEFINED)
 {
   size_t	i;
 
@@ -104,7 +104,7 @@ nts::Tristate	nts::c4040::ComputeOutput(size_t pin_num_this)
 	{
 	  clock = getValueForPin(10);
 	  reset = getValueForPin(11);
-	  if (clock)
+	  if (!clock && _prev_state != nts::Tristate::UNDEFINED)
 	    {
 	      i = 11;
 	      _outputs[i] += 1;
@@ -126,6 +126,7 @@ nts::Tristate	nts::c4040::ComputeOutput(size_t pin_num_this)
 	    }
 	  if (reset)
 	    resetOutput();
+	  _prev_state = clock == true ? nts::Tristate::TRUE : nts::Tristate::FALSE;
 	}
       else
 	throw Errors("Wrong pin for compute");

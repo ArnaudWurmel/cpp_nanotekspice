@@ -20,5 +20,3 @@ reset:1		dlatch:4
 
 out:1		dlatch:1
 nout:1		dlatch:2
-
-
