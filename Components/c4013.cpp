@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Fri Mar  3 14:09:40 2017 Arnaud WURMEL
+// Last update Fri Mar  3 14:36:43 2017 Victorien Fischer
 //
 
 #include "c4013.hpp"
@@ -16,11 +16,13 @@
 */
 nts::c4013::c4013(const std::string &value) : Component(value)
 {
+  _previous[0] = nts::Tristate::UNDEFINED;
+  _previous[1] = nts::Tristate::UNDEFINED;
   addComputeFunction(1);
   addComputeFunction(2);
   addComputeFunction(12);
   addComputeFunction(13);
-  _computeFunctions.insert(std::make_pair(7, std::bind(&nts::c4013::ComputeOnVDD, this, std::placeholders::_1)));
+  _computeFunctions.insert(std::make_pair(7, std::bind(&nts::c4013::ComputeOnVSS, this, std::placeholders::_1)));
   _computeFunctions.insert(std::make_pair(14, std::bind(&nts::c4013::ComputeOnVDD, this, std::placeholders::_1)));
 }
 
