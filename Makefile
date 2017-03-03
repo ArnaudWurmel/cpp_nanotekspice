@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Fri Jan 27 19:13:05 2017 Arnaud WURMEL
-## Last update Thu Mar  2 19:22:29 2017 Arnaud WURMEL
+## Last update Fri Mar  3 08:57:51 2017 Arnaud WURMEL
 ##
 
 CC=		g++
@@ -14,8 +14,9 @@ SRC_PATH=	srcs
 
 COMPONENT=	Components
 
-SRCS=		$(SRC_PATH)/main.cpp \
-		Parser/Parser.cpp \
+MAIN_SRCS=	$(SRC_PATH)/main.cpp \
+
+SRCS=		Parser/Parser.cpp \
 		$(SRC_PATH)/NanoTekSpice.cpp \
 		$(SRC_PATH)/Helper.cpp \
 		Errors/Errors.cpp \
@@ -41,19 +42,25 @@ SRCS=		$(SRC_PATH)/main.cpp \
 
 OBJS=		$(SRCS:.cpp=.o)
 
+MAIN_OBJS=	$(MAIN_SRCS:.c=.o)
+
 CXXFLAGS+=	-I ./Interface -I ./include -I ./Parser -Wall -Wextra -std=c++11 -I ./Errors -I ./$(COMPONENT)
 
 NAME=		nanotekspice
 
-$(NAME):	$(OBJS)
-		$(CC) $(OBJS) -o $(NAME)
+$(NAME):	$(OBJS) $(MAIN_OBJS)
+		ar rc libnanotekspice.a $(OBJS)
+		ranlib libnanotekspice.a
+		$(CC) -o $(NAME) $(MAIN_OBJS) -lnanotekspice -L . $(CXXFLAGS)
 
 all:		$(NAME)
 
 clean:
+		rm -rf $(SRC_PATH)/main.o
 		rm -rf $(OBJS)
 
 fclean:		clean
+		rm -rf libnanotekspice.a
 		rm -rf $(NAME)
 
 re:		fclean all
