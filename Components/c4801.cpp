@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Thu Mar  2 14:41:10 2017 Victorien Fischer
+// Last update Fri Mar  3 01:07:50 2017 Arnaud WURMEL
 //
 
 #include "c4801.hpp"
@@ -20,7 +20,7 @@ nts::c4801::c4801(const std::string &value) : Component(value)
 /*
 ** Computing
 */
-nts::Tristate	nts::c4801::Compute(size_t pin_num_this)
+nts::Tristate	nts::c4801::ComputeOutput(size_t pin_num_this)
 {
   (void)pin_num_this;
   return (nts::Tristate::UNDEFINED);
