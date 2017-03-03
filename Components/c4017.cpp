@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Fri Mar  3 00:58:30 2017 Arnaud WURMEL
+// Last update Fri Mar  3 01:28:31 2017 Victorien Fischer
 //
 
 #include "c4017.hpp"
@@ -15,6 +15,14 @@
 */
 nts::c4017::c4017(const std::string &value) : Component(value)
 {
+}
+
+/*
+** Link a pin to a compute function
+*/
+void		nts::c4017::addComputeFunction(size_t pin)
+{
+  _computeFunctions.insert(std::make_pair(pin, std::bind(&nts::c4017::ComputeOutput, this, std::placeholders::_1)));
 }
 
 /*

@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Fri Mar  3 01:01:22 2017 Arnaud WURMEL
+// Last update Fri Mar  3 01:22:44 2017 Victorien Fischer
 //
 
 #include "c4013.hpp"
@@ -16,10 +16,18 @@
 */
 nts::c4013::c4013(const std::string &value) : Component(value)
 {
-  _computeFunctions.insert(std::make_pair(1, std::bind(&nts::c4013::ComputeOutput, this, std::placeholders::_1)));
-  _computeFunctions.insert(std::make_pair(2, std::bind(&nts::c4013::ComputeOutput, this, std::placeholders::_1)));
-  _computeFunctions.insert(std::make_pair(12, std::bind(&nts::c4013::ComputeOutput, this, std::placeholders::_1)));
-  _computeFunctions.insert(std::make_pair(13, std::bind(&nts::c4013::ComputeOutput, this, std::placeholders::_1)));
+  addComputeFunction(1);
+  addComputeFunction(2);
+  addComputeFunction(12);
+  addComputeFunction(13);
+}
+
+/*
+** Link a pin to a compute function
+*/
+void		nts::c4013::addComputeFunction(size_t pin)
+{
+  _computeFunctions.insert(std::make_pair(pin, std::bind(&nts::c4013::ComputeOutput, this, std::placeholders::_1)));
 }
 
 /*

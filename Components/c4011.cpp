@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 17:37:04 2017 Victorien Fischer
-// Last update Fri Mar  3 01:01:00 2017 Arnaud WURMEL
+// Last update Fri Mar  3 01:20:28 2017 Victorien Fischer
 //
 
 #include <string>
@@ -17,10 +17,18 @@
 */
 nts::c4011::c4011(const std::string &value) : Component(value)
 {
-  _computeFunctions.insert(std::make_pair(3, std::bind(&nts::c4011::ComputeOutput, this, std::placeholders::_1)));
-  _computeFunctions.insert(std::make_pair(4, std::bind(&nts::c4011::ComputeOutput, this, std::placeholders::_1)));
-  _computeFunctions.insert(std::make_pair(10, std::bind(&nts::c4011::ComputeOutput, this, std::placeholders::_1)));
-  _computeFunctions.insert(std::make_pair(11, std::bind(&nts::c4011::ComputeOutput, this, std::placeholders::_1)));
+  addComputeFunction(3);
+  addComputeFunction(4);
+  addComputeFunction(10);
+  addComputeFunction(11);
+}
+
+/*
+** Link a pin to a compute function
+*/
+void		nts::c4011::addComputeFunction(size_t pin)
+{
+  _computeFunctions.insert(std::make_pair(pin, std::bind(&nts::c4011::ComputeOutput, this, std::placeholders::_1)));
 }
 
 /*

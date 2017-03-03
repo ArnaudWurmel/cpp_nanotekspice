@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Fri Mar  3 00:49:42 2017 Arnaud WURMEL
+// Last update Fri Mar  3 01:18:28 2017 Victorien Fischer
 //
 
 #include <iostream>
@@ -22,11 +22,19 @@ nts::c4008::c4008(const std::string &value) : Component(value), _outputs(14)
   _outputs[11] = std::make_pair(4, 5);
   _outputs[12] = std::make_pair(2, 3);
   _outputs[13] = std::make_pair(1, 15);
-  _computeFunctions.insert(std::make_pair(10, std::bind(&nts::c4008::ComputeOutput, this, std::placeholders::_1)));
-  _computeFunctions.insert(std::make_pair(11, std::bind(&nts::c4008::ComputeOutput, this, std::placeholders::_1)));
-  _computeFunctions.insert(std::make_pair(12, std::bind(&nts::c4008::ComputeOutput, this, std::placeholders::_1)));
-  _computeFunctions.insert(std::make_pair(13, std::bind(&nts::c4008::ComputeOutput, this, std::placeholders::_1)));
-  _computeFunctions.insert(std::make_pair(14, std::bind(&nts::c4008::ComputeOutput, this, std::placeholders::_1)));
+  addComputeFunction(10);
+  addComputeFunction(11);
+  addComputeFunction(12);
+  addComputeFunction(13);
+  addComputeFunction(14);
+}
+
+/*
+** Link a pin to a compute function
+*/
+void		nts::c4008::addComputeFunction(size_t pin)
+{
+  _computeFunctions.insert(std::make_pair(pin, std::bind(&nts::c4008::ComputeOutput, this, std::placeholders::_1)));
 }
 
 /*
