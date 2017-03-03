@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 13:25:47 2017 Arnaud WURMEL
-// Last update Thu Mar  2 15:38:30 2017 Arnaud WURMEL
+// Last update Fri Mar  3 10:56:11 2017 Arnaud WURMEL
 //
 
 #include <string>
@@ -26,6 +26,8 @@ Parser::Parser()
   _input = "";
   _chipset["input"] = true;
   _chipset["output"] = true;
+  _chipset["false"] = true;
+  _chipset["true"] = true;
   _chipset["clock"] = true;
   _chipset["4001"] = true;
   _chipset["4008"] = true;

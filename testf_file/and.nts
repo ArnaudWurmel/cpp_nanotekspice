@@ -2,10 +2,10 @@
 # One and gate
 
 .chipsets:
-input		a0
-input		a1
-input		b0
-input		b1
+false		a0
+true		a1
+true		b0
+true		b1
 output		s
 4081		gate
 

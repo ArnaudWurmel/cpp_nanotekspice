@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Fri Jan 27 19:13:05 2017 Arnaud WURMEL
-## Last update Fri Mar  3 08:57:51 2017 Arnaud WURMEL
+## Last update Fri Mar  3 10:48:06 2017 Arnaud WURMEL
 ##
 
 CC=		g++
@@ -38,7 +38,9 @@ SRCS=		Parser/Parser.cpp \
 		$(COMPONENT)/cOutput.cpp \
 		$(COMPONENT)/cClock.cpp \
 		$(COMPONENT)/Component.cpp \
-		$(COMPONENT)/ComponentFactory.cpp
+		$(COMPONENT)/ComponentFactory.cpp \
+		$(COMPONENT)/cFalse.cpp \
+		$(COMPONENT)/cTrue.cpp
 
 OBJS=		$(SRCS:.cpp=.o)
 

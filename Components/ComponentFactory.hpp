@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 17:12:17 2017 Victorien Fischer
-// Last update Wed Mar  1 18:07:41 2017 Arnaud WURMEL
+// Last update Fri Mar  3 10:49:59 2017 Arnaud WURMEL
 //
 
 #ifndef __COMPONENTFACTORY_HPP__
@@ -33,6 +33,8 @@
 #include "cInput.hpp"
 #include "cOutput.hpp"
 #include "cClock.hpp"
+#include "cFalse.hpp"
+#include "cTrue.hpp"
 
 namespace nts
 {
@@ -67,6 +69,8 @@ namespace nts
     IComponent	*create2716(const std::string &) const;
     IComponent	*createInput(const std::string &) const;
     IComponent	*createOutput(const std::string &) const;
+    IComponent	*createFalse(const std::string &) const;
+    IComponent	*createTrue(const std::string &) const;
   };
 }
 
