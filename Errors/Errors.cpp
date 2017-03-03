@@ -5,12 +5,17 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Wed Feb  8 18:52:07 2017 Arnaud WURMEL
-// Last update Wed Feb  8 19:12:52 2017 Arnaud WURMEL
+// Last update Fri Mar  3 12:58:58 2017 Arnaud WURMEL
 //
 
 #include <exception>
 #include <string>
 #include "Errors.hpp"
+
+Errors::Errors(std::string const& what)
+{
+  _what = what;
+}
 
 Errors::Errors(const char *what)
 {

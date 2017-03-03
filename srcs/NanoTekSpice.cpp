@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:24 2017 Arnaud WURMEL
-// Last update Fri Mar  3 12:52:47 2017 Arnaud WURMEL
+// Last update Fri Mar  3 13:32:21 2017 Arnaud WURMEL
 //
 
 #include <map>
@@ -136,7 +136,7 @@ void		nts::NanoTekSpice::start(int ac, char **av)
       if (input.empty() == false)
 	{
 	  if (!this->executeAction(input))
-	    std::cerr << input << NOT_FOUND << std::endl;
+	    throw Errors(input + NOT_FOUND);
 	}
     }
 }
@@ -237,7 +237,7 @@ void	nts::NanoTekSpice::setInputValue(std::string const& input)
 	  else if (value.compare("1") == 0)
 	    (*it).second->setValue(nts::Tristate::TRUE);
 	  else
-	    std::cerr << "Unknown value : " << value << " for input" << std::endl;
+	    throw Errors("Unknown value : " + value + " for input");
 	  return ;
 	}
       ++it;
@@ -249,7 +249,7 @@ void	nts::NanoTekSpice::setInputValue(std::string const& input)
 	{
 	  if (_input_setted)
 	    {
-	      std::cerr << "Can't set : " << name << ": type of clock between 2 simulations" << std::endl;
+	      throw Errors("Can't set " + name + ": type of clock between 2 simulations");
 	      return ;
 	    }
 	  if (value.compare("0") == 0)
@@ -257,12 +257,12 @@ void	nts::NanoTekSpice::setInputValue(std::string const& input)
 	  else if (value.compare("1") == 0)
 	    (*it_clock).second->setValue(nts::Tristate::TRUE);
 	  else
-	    std::cerr << "Unknown value : " << value << " for clock" << std::endl;
+	    throw Errors("Unknown value : " + value + " for clock");
 	  return ;
 	}
       ++it_clock;
     }
-  std::cerr << "Unknown name : " << name << std::endl;
+  throw Errors("Unknown name : " + name);
 }
 
 /*
@@ -395,6 +395,26 @@ void	nts::NanoTekSpice::createComponent(void)
       ++it;
     }
   std::sort(_outputs->begin(), _outputs->end(), nts::NanoTekSpice::sortComparator);
+  sanityNameCheck();
+}
+
+void	nts::NanoTekSpice::sanityNameCheck(void) const
+{
+  std::vector<std::pair<std::string, IComponent *> >::const_iterator it;
+  std::vector<std::pair<std::string, IComponent *> >::const_iterator it2;
+
+  it = _comp->begin();
+  while (it != _comp->end())
+    {
+      it2 = it + 1;
+      while (it2 != _comp->end())
+	{
+	  if ((*it2).first.compare((*it).first) == 0)
+	    throw Errors("Component with same name.");
+	  ++it2;
+	}
+      ++it;
+    }
 }
 
 bool	nts::NanoTekSpice::sortComparator(std::pair<std::string, IComponent *> first,

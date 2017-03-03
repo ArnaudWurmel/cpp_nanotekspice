@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Wed Feb  8 18:52:24 2017 Arnaud WURMEL
-// Last update Wed Feb  8 22:31:49 2017 Arnaud WURMEL
+// Last update Fri Mar  3 12:58:40 2017 Arnaud WURMEL
 //
 
 #ifndef ERRORS_HPP_
@@ -17,6 +17,7 @@
 class	Errors : virtual public std::exception
 {
 public:
+  Errors(std::string const& what);
   Errors(const char *what);
   ~Errors();
 
