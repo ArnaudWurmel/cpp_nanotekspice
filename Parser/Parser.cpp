@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 13:25:47 2017 Arnaud WURMEL
-// Last update Fri Mar  3 12:58:26 2017 Arnaud WURMEL
+// Last update Fri Mar  3 16:24:37 2017 Arnaud WURMEL
 //
 
 #include <string>
@@ -199,10 +199,12 @@ void			Parser::checkParenthesis(nts::t_ast_node *child) const
   tmp = -1;
   while ((tmp = child->lexeme.find("(", tmp + 1)) != std::string::npos)
     pos = tmp;
-  if (pos != std::string::npos)
+  if (pos != std::string::npos && child->lexeme.find(")") != std::string::npos)
     {
       child->value = child->lexeme.substr(pos);
       child->lexeme.erase(pos);
+      child->value.erase(child->value.begin());
+      child->value.erase(child->value.end() - 1);
     }
 }
 

@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:24 2017 Arnaud WURMEL
-// Last update Fri Mar  3 14:00:47 2017 Arnaud WURMEL
+// Last update Fri Mar  3 16:20:59 2017 Arnaud WURMEL
 //
 
 #include <map>
@@ -374,7 +374,7 @@ void	nts::NanoTekSpice::createComponent(void)
   while (it != chipset->children->end())
     {
       _comp->push_back(std::make_pair((*(*it)->children->begin())->lexeme,
-				      componentFactory.createComponent((*it)->lexeme, (*it)->value)));
+				      componentFactory.createComponent((*it)->lexeme, (*(*it)->children->begin())->value)));
       if (caller.find((*it)->lexeme) != caller.end())
 	{
 	  (this->*caller[(*it)->lexeme])();

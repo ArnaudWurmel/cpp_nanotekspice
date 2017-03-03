@@ -1,14 +1,17 @@
 .chipsets:
-input	a
-input	b
 
-4081		AND
-2716	t(test)
+2716	t(testf_file/rom.bin)
 
-output	o
+output	o0
+output	o1
+output	o2
+output	o3
+output	o4
+output	o5
+output	o6
+output	o7
+
 
 
 .links:
-a:1	AND:1
-b:1	AND:2
-o:1	AND:3
+
