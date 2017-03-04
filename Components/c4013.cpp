@@ -5,9 +5,10 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Fri Mar  3 14:39:13 2017 Victorien Fischer
+// Last update Sat Mar  4 01:20:12 2017 Victorien Fischer
 //
 
+#include <iostream>
 #include "c4013.hpp"
 #include "Errors.hpp"
 
@@ -16,6 +17,7 @@
 */
 nts::c4013::c4013(const std::string &value) : Component(value)
 {
+  _prevClock = nts::Tristate::UNDEFINED;
   _previous[0] = nts::Tristate::UNDEFINED;
   _previous[1] = nts::Tristate::UNDEFINED;
   addComputeFunction(1);
@@ -32,21 +34,6 @@ nts::c4013::c4013(const std::string &value) : Component(value)
 void		nts::c4013::addComputeFunction(size_t pin)
 {
   _computeFunctions.insert(std::make_pair(pin, std::bind(&nts::c4013::ComputeOutput, this, std::placeholders::_1)));
-}
-
-/*
-** Getting Output Value from Pins' value
-*/
-nts::Tristate	nts::c4013::getOutputValue(bool set, bool reset, bool data) const
-{
-  if (!set && !reset)
-    return (((data) ? (nts::Tristate::TRUE) : (nts::Tristate::FALSE)));
-  else if (set && !reset)
-    return (nts::Tristate::TRUE);
-  else if (!set && reset)
-    return (nts::Tristate::FALSE);
-  else
-    return (nts::Tristate::TRUE);
 }
 
 /*
@@ -88,15 +75,31 @@ nts::Tristate	nts::c4013::ComputeOutput(size_t pin_num_this)
   vset = getValueForPin(set);
   vreset = getValueForPin(reset);
   vdata = getValueForPin(data);
-  if (!(vclock && !vreset && !vset))
-    _previous[num] = getOutputValue(vset, vreset, vdata);
-  if ((pin_num_this == 2 || pin_num_this == 12) && !(vset && vreset))
+  if (_prevClock != nts::Tristate::UNDEFINED)
+    if (!vset && !vreset)
+      if (vclock)
+	_previous[num] = ((vdata) ? (nts::Tristate::TRUE) : (nts::Tristate::FALSE));
+  if (vreset || vset)
     {
-      if (_previous[num] == nts::Tristate::UNDEFINED)
+      if (vreset && !vset)
+	_previous[num] = nts::Tristate::FALSE;
+      else
+	_previous[num] = nts::Tristate::TRUE;
+    }
+  _prevClock = (vclock) ? (nts::Tristate::TRUE) : (nts::Tristate::FALSE);
+  if (pin_num_this == 2 || pin_num_this == 12)
+    {
+      if (vreset && vset)
 	return (_previous[num]);
-      if (_previous[num] == nts::Tristate::TRUE)
-	return (nts::Tristate::FALSE);
-      return (nts::Tristate::TRUE);
+      else
+	{
+	  if (_previous[num] == nts::Tristate::UNDEFINED)
+	    return (nts::Tristate::UNDEFINED);
+	  else if (_previous[num] == nts::Tristate::TRUE)
+	    return (nts::Tristate::FALSE);
+	  else
+	    return (nts::Tristate::TRUE);
+	}
     }
   return (_previous[num]);
 }
