@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Fri Mar  3 08:50:42 2017 Victorien Fischer
+// Last update Sat Mar  4 16:12:30 2017 Victorien Fischer
 //
 
 #include <string>
@@ -19,8 +19,8 @@ const static size_t	_output[17][5] =
   {
     // A, B, C, D, SX
     { 0, 0, 0, 0, 11 },
-    { 1, 0, 0, 0, 10 },
-    { 0, 1, 0, 0, 9 },
+    { 1, 0, 0, 0, 9 },
+    { 0, 1, 0, 0, 10 },
     { 1, 1, 0, 0, 8 },
     { 0, 0, 1, 0, 7 },
     { 1, 0, 1, 0, 6 },
@@ -30,10 +30,10 @@ const static size_t	_output[17][5] =
     { 1, 0, 0, 1, 17 },
     { 0, 1, 0, 1, 20 },
     { 1, 1, 0, 1, 19 },
-    { 0, 0, 1, 1, 16 },
-    { 1, 0, 1, 1, 15 },
-    { 1, 1, 1, 0, 14 },
-    { 1, 1, 1, 1, 13 },
+    { 0, 0, 1, 1, 14 },
+    { 1, 0, 1, 1, 13 },
+    { 0, 1, 1, 1, 16 },
+    { 1, 1, 1, 1, 15 },
     0
   };
 
@@ -44,6 +44,10 @@ nts::c4514::c4514(const std::string &value) : Component(value)
 {
   size_t	i;
 
+  _inputs[0] = false;
+  _inputs[1] = false;
+  _inputs[2] = false;
+  _inputs[3] = false;
   i = 3;
   while (++i < 21)
     if (i != 12)
@@ -67,12 +71,19 @@ nts::Tristate		nts::c4514::getOutputForPin(size_t pin)
 {
   int			i;
 
+  if (getValueForPin(1))
+    {
+      _inputs[0] = getValueForPin(2);
+      _inputs[1] = getValueForPin(3);
+      _inputs[2] = getValueForPin(21);
+      _inputs[3] = getValueForPin(22);
+    }
   i = 0;
   while (_output[i] && _output[i][4] != pin)
     i++;
   if (_output[i])
-    if (_output[i][0] == getValueForPin(2) && _output[i][1] == getValueForPin(3) &&
-	_output[i][2] == getValueForPin(21) && _output[i][3] == getValueForPin(22))
+    if (_output[i][0] == _inputs[0] && _output[i][1] == _inputs[1] &&
+	_output[i][2] == _inputs[2] && _output[i][3] == _inputs[3])
       return (nts::Tristate::TRUE);
   return (nts::Tristate::FALSE);
 }
@@ -82,7 +93,7 @@ nts::Tristate		nts::c4514::getOutputForPin(size_t pin)
 */
 nts::Tristate	nts::c4514::ComputeOutput(size_t pin)
 {
-  if (getValueForPin(1))
+  if (getValueForPin(23))
     return (nts::Tristate::FALSE);
   else
     {
