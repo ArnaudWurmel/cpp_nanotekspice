@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:17:27 2017 Victorien Fischer
-// Last update Fri Mar  3 01:07:59 2017 Victorien Fischer
+// Last update Sat Mar  4 15:15:29 2017 Victorien Fischer
 //
 
 #ifndef __C4514_HPP__
@@ -33,6 +33,7 @@ namespace nts
 
   private:
     void			addComputeFunction(size_t);
+    bool			_inputs[4];
   };
 }
 
