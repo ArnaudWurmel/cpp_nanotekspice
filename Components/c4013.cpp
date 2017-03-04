@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Sat Mar  4 01:20:12 2017 Victorien Fischer
+// Last update Sat Mar  4 17:57:47 2017 Victorien Fischer
 //
 
 #include <iostream>
@@ -17,7 +17,10 @@
 */
 nts::c4013::c4013(const std::string &value) : Component(value)
 {
-  _prevClock = nts::Tristate::UNDEFINED;
+  _simid[0] = 1;
+  _simid[1] = 1;
+  _prevClock[0] = nts::Tristate::UNDEFINED;
+  _prevClock[1] = nts::Tristate::UNDEFINED;
   _previous[0] = nts::Tristate::UNDEFINED;
   _previous[1] = nts::Tristate::UNDEFINED;
   addComputeFunction(1);
@@ -75,10 +78,17 @@ nts::Tristate	nts::c4013::ComputeOutput(size_t pin_num_this)
   vset = getValueForPin(set);
   vreset = getValueForPin(reset);
   vdata = getValueForPin(data);
-  if (_prevClock != nts::Tristate::UNDEFINED)
+  if (_simid[num] != nts::NanoTekSpice::_sim_id)
+    {
+      _prevClock[num] = (vclock) ? (nts::Tristate::TRUE) : (nts::Tristate::FALSE);
+      _simid[num] = nts::NanoTekSpice::_sim_id;
+    }
+  if (_prevClock[num] != nts::Tristate::UNDEFINED)
     if (!vset && !vreset)
-      if (vclock)
-	_previous[num] = ((vdata) ? (nts::Tristate::TRUE) : (nts::Tristate::FALSE));
+      {
+	if (vclock)
+	  _previous[num] = ((vdata) ? (nts::Tristate::TRUE) : (nts::Tristate::FALSE));
+      }
   if (vreset || vset)
     {
       if (vreset && !vset)
@@ -86,7 +96,6 @@ nts::Tristate	nts::c4013::ComputeOutput(size_t pin_num_this)
       else
 	_previous[num] = nts::Tristate::TRUE;
     }
-  _prevClock = (vclock) ? (nts::Tristate::TRUE) : (nts::Tristate::FALSE);
   if (pin_num_this == 2 || pin_num_this == 12)
     {
       if (vreset && vset)
