@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar  1 18:51:53 2017 Victorien Fischer
-// Last update Fri Mar  3 01:02:13 2017 Arnaud WURMEL
+// Last update Sun Mar  5 00:16:39 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -38,14 +38,32 @@ bool		nts::Component::alreadyLink(size_t pin) const
   return (false);
 }
 
+size_t		nts::Component::CheckRecursion(nts::Tristate state)
+{
+  static size_t	i = 0;
+
+  if (state == nts::Tristate::TRUE)
+    i += 1;
+  else if (state == nts::Tristate::FALSE)
+    i -= 1;
+  return (i);
+}
+
 /*
 ** Computing
 */
 nts::Tristate	nts::Component::Compute(size_t pin_num_this)
 {
+  nts::Tristate	state;
+
+  if (CheckRecursion(nts::Tristate::UNDEFINED) >= 500)
+    throw Errors("Infinite loop");
   if (_computeFunctions.find(pin_num_this) != _computeFunctions.end())
     {
-      return (_computeFunctions[pin_num_this](pin_num_this));
+      CheckRecursion(nts::Tristate::TRUE);
+      state = _computeFunctions[pin_num_this](pin_num_this);
+      CheckRecursion(nts::Tristate::FALSE);
+      return (state);
     }
   throw Errors("Compute on no output pin");
 }

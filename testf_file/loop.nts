@@ -1,0 +1,9 @@
+.chipsets:
+true	a0
+true	a1
+
+4081	gate
+
+output	o
+
+.links:
