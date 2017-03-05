@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:17:27 2017 Victorien Fischer
-// Last update Sun Mar  5 01:10:25 2017 Victorien Fischer
+// Last update Sun Mar  5 02:51:55 2017 Victorien Fischer
 //
 
 #ifndef __C4017_HPP__
@@ -14,6 +14,7 @@
 #include <string>
 #include "Component.hpp"
 #include "IComponent.hpp"
+#include "NanoTekSpice.hpp"
 
 namespace nts
 {
@@ -33,7 +34,9 @@ namespace nts
     nts::Tristate		_prevCP0;
     nts::Tristate		_prevCP1;
     size_t			_output[10];
-    size_t			_prevOut;
+    size_t			_currentOut;
+    size_t			_simid;
+    size_t			_simidout;
   };
 }
 

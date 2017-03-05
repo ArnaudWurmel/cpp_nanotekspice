@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:40:02 2017 Victorien Fischer
-// Last update Sun Mar  5 01:40:34 2017 Victorien Fischer
+// Last update Sun Mar  5 03:19:51 2017 Victorien Fischer
 //
 
 #include "c4017.hpp"
@@ -18,6 +18,8 @@ nts::c4017::c4017(const std::string &value) : Component(value)
 {
   size_t	i;
 
+  _simid = 1;
+  _simidout = 1;
   i = 0;
   while (++i < 13)
     addComputeFunction(i);
@@ -33,7 +35,7 @@ nts::c4017::c4017(const std::string &value) : Component(value)
   _output[7] = 6;
   _output[8] = 9;
   _output[9] = 11;
-  _prevOut = 0;
+  _currentOut = 0;
   addComputeFunction(1);
   addComputeFunction(2);
   addComputeFunction(3);
@@ -60,38 +62,47 @@ void		nts::c4017::addComputeFunction(size_t pin)
 */
 nts::Tristate	nts::c4017::ComputeOutput(size_t pin_num_this)
 {
-  bool	vcp0;
-  bool	vcp1;
-  bool	mr;
-
   if (pin_num_this == 12)
     {
-      if (_prevOut < 5)
+      if (_currentOut < 5)
+	return (nts::Tristate::TRUE);
+      if (_simidout == nts::NanoTekSpice::_sim_id - 1)
+	if (_currentOut < 6)
+	  return (nts::Tristate::TRUE);
+      if (_prevCP0 == FALSE && _currentOut == 10)
 	return (nts::Tristate::TRUE);
       return (nts::Tristate::FALSE);
     }
-  vcp0 = getValueForPin(14);
-  vcp1 = getValueForPin(13);
-  if ((mr = getValueForPin(15)))
-    return (nts::Tristate::UNDEFINED);
-  if (_prevCP0 == nts::Tristate::FALSE && vcp0)
+  if (_simid != nts::NanoTekSpice::_sim_id)
     {
-      if (_prevOut + 1 == pin_num_this || (pin_num_this == 0 && _prevOut == 9))
-	{
-	  _prevOut = pin_num_this;
-	  return (nts::Tristate::TRUE);
-	}
+      _simid = nts::NanoTekSpice::_sim_id;
+      _prevCP0 = (getValueForPin(14)) ? (nts::Tristate::TRUE) : (nts::Tristate::FALSE);
+      _prevCP1 = (getValueForPin(13)) ? (nts::Tristate::TRUE) : (nts::Tristate::FALSE);
+    }
+  if (getValueForPin(15))
+    return (nts::Tristate::UNDEFINED);
+  if (_prevCP0 == nts::Tristate::TRUE)
+    {
+      if (_currentOut == 10)
+	_currentOut = 0;
+      if (_output[_currentOut] == pin_num_this)
+	if (_simidout != nts::NanoTekSpice::_sim_id)
+	  {
+	    _simidout = nts::NanoTekSpice::_sim_id;
+	    _currentOut += 1;
+	    return (nts::Tristate::TRUE);
+	  }
       return (nts::Tristate::FALSE);
     }
-  else if (_prevCP0 == nts::Tristate::TRUE && vcp0)
+  else if (_prevCP0 == nts::Tristate::FALSE)
     {
-      if (_prevCP1 == nts::Tristate::TRUE && !vcp1)
-	if (_prevOut == 0 && pin_num_this == 1)
-	  return (nts::Tristate::TRUE);
+      if (_currentOut == 0)
+	_currentOut += 1;
+      if (_output[_currentOut - 1] == pin_num_this)
+	return (nts::Tristate::TRUE);
       return (nts::Tristate::FALSE);
     }
-  else
-    return (nts::Tristate::UNDEFINED);
+  return (nts::Tristate::UNDEFINED);
 }
 
 /*
