@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Jan 27 19:12:02 2017 Arnaud WURMEL
-// Last update Fri Mar  3 01:22:09 2017 Arnaud WURMEL
+// Last update Sun Mar  5 20:28:26 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -54,7 +54,6 @@ int	main(int ac, char **av)
   nts::NanoTekSpice	*root;
   nts::t_ast_node	*node;
 
-  (void)av;
   if (ac == 1)
     {
       std::cerr << "Error arguments" << std::endl;

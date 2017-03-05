@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Feb 15 23:18:20 2017 Victorien Fischer
-// Last update Fri Mar  3 10:54:48 2017 Arnaud WURMEL
+// Last update Sun Mar  5 20:26:12 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -17,7 +17,7 @@
 */
 nts::cTrue::cTrue(const std::string &value)
 {
-  (void)value;
+  static_cast<void>(value);
   _component = NULL;
   _link = new std::pair<size_t, size_t>();
   _link->first = 0;

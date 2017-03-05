@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 18:36:24 2017 Arnaud WURMEL
-// Last update Fri Mar  3 16:20:59 2017 Arnaud WURMEL
+// Last update Sun Mar  5 20:28:50 2017 Arnaud WURMEL
 //
 
 #include <map>
@@ -305,7 +305,7 @@ void	nts::NanoTekSpice::setClock()
 */
 void	nts::NanoTekSpice::sigintLoop(int sig)
 {
-  (void)sig;
+  static_cast<void>(sig);
   nts::NanoTekSpice::_loop = false;
 }
 

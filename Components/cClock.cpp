@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Feb 15 23:18:20 2017 Victorien Fischer
-// Last update Wed Mar  1 18:17:58 2017 Arnaud WURMEL
+// Last update Sun Mar  5 20:27:26 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -17,7 +17,7 @@
 */
 nts::cClock::cClock(const std::string &value)
 {
-  (void)value;
+  static_cast<void>(value);
   _value = nts::Tristate::UNDEFINED;
   _component = NULL;
   _link = new std::pair<size_t, size_t>();

@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar  1 18:51:53 2017 Victorien Fischer
-// Last update Sun Mar  5 00:16:39 2017 Arnaud WURMEL
+// Last update Sun Mar  5 20:26:31 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -17,7 +17,7 @@
 */
 nts::Component::Component(const std::string &value) : _links(0)
 {
-  (void)value;
+  static_cast<void>(value);
 }
 
 

@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:17:27 2017 Victorien Fischer
-// Last update Fri Mar  3 17:22:11 2017 Arnaud WURMEL
+// Last update Sun Mar  5 20:32:42 2017 Arnaud WURMEL
 //
 
 #ifndef __C2716_HPP__
@@ -32,7 +32,6 @@ namespace nts
 
   private:
     void			addComputeFunction(size_t);
-    char			*CalculAddr() const;
 
   private:
     std::string	_filecontent;
