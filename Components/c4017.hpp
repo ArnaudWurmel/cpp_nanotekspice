@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Tue Feb 14 16:17:27 2017 Victorien Fischer
-// Last update Fri Mar  3 01:23:28 2017 Victorien Fischer
+// Last update Sun Mar  5 01:10:25 2017 Victorien Fischer
 //
 
 #ifndef __C4017_HPP__
@@ -30,6 +30,10 @@ namespace nts
 
   private:
     void			addComputeFunction(size_t);
+    nts::Tristate		_prevCP0;
+    nts::Tristate		_prevCP1;
+    size_t			_output[10];
+    size_t			_prevOut;
   };
 }
 
