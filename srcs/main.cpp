@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Jan 27 19:12:02 2017 Arnaud WURMEL
-// Last update Sun Mar  5 20:28:26 2017 Arnaud WURMEL
+// Last update Sun Mar  5 20:53:26 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -24,7 +24,7 @@ nts::t_ast_node	*openFile(char *filepath)
   std::ifstream	file;
   std::stringstream	ss;
   nts::t_ast_node	*node;  
-  Parser	parser;
+  nts::Parser	parser;
 
   node = NULL;
   file.open(filepath);

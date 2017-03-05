@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Feb  3 13:25:47 2017 Arnaud WURMEL
-// Last update Fri Mar  3 16:24:37 2017 Arnaud WURMEL
+// Last update Sun Mar  5 20:53:00 2017 Arnaud WURMEL
 //
 
 #include <string>
@@ -21,7 +21,7 @@
 /*
 ** Ctor
 */
-Parser::Parser()
+nts::Parser::Parser()
 {
   _input = "";
   _chipset["input"] = true;
@@ -48,7 +48,7 @@ Parser::Parser()
 /*
 ** Dtor
 */
-Parser::~Parser()
+nts::Parser::~Parser()
 {
 
 }
@@ -56,7 +56,7 @@ Parser::~Parser()
 /*
 ** Feed the input string
 */
-void	Parser::feed(std::string const& input)
+void	nts::Parser::feed(std::string const& input)
 {
   _input += input;
 }
@@ -64,7 +64,7 @@ void	Parser::feed(std::string const& input)
 /*
 ** Regroup different section together, throw a Errors if failed
 */
-void	Parser::regroupSection(nts::t_ast_node& root) const
+void	nts::Parser::regroupSection(nts::t_ast_node& root) const
 {
   std::vector<nts::t_ast_node *>::iterator	it;
   std::vector<nts::t_ast_node *>::iterator	tmp;
@@ -108,7 +108,7 @@ void	Parser::regroupSection(nts::t_ast_node& root) const
 ** Transform STRING into COMPONENT type
 ** Throw a error if syntax failed
 */
-void	Parser::createChipset(nts::t_ast_node& chipset)
+void	nts::Parser::createChipset(nts::t_ast_node& chipset)
 {
   std::vector<nts::t_ast_node *>::iterator	it;
 
@@ -137,7 +137,7 @@ void	Parser::createChipset(nts::t_ast_node& chipset)
 ** Transform String into LINK / LINK_END type
 ** Throw a error if syntax failed
 */
-void	Parser::createLink(nts::t_ast_node& link) const
+void	nts::Parser::createLink(nts::t_ast_node& link) const
 {
   std::vector<nts::t_ast_node *>::iterator	it;
 
@@ -154,7 +154,7 @@ void	Parser::createLink(nts::t_ast_node& link) const
 /*
 ** Check tree syntax, raise a error else
 */
-void	Parser::parseTree(nts::t_ast_node& root)
+void	nts::Parser::parseTree(nts::t_ast_node& root)
 {
   regroupSection(root);
   if ((*root.children->begin())->value.compare(CHIPSET_SECTION) == 0)
@@ -173,7 +173,7 @@ void	Parser::parseTree(nts::t_ast_node& root)
 /*
 ** Delete comment of string started by '#' and finished by '\0'
 */
-void	Parser::RemoveCommentaryFromInput(std::string& input)
+void	nts::Parser::RemoveCommentaryFromInput(std::string& input)
 {
   std::string::iterator	it;
 
@@ -190,7 +190,7 @@ void	Parser::RemoveCommentaryFromInput(std::string& input)
 /*
 ** Eval expr of type : COMPONENT(%d)
 */
-void			Parser::checkParenthesis(nts::t_ast_node *child) const
+void			nts::Parser::checkParenthesis(nts::t_ast_node *child) const
 {
   size_t		pos;
   size_t		tmp;
@@ -208,7 +208,7 @@ void			Parser::checkParenthesis(nts::t_ast_node *child) const
     }
 }
 
-void	Parser::createLine(nts::t_ast_node *root, std::string line) const
+void	nts::Parser::createLine(nts::t_ast_node *root, std::string line) const
 {
   nts::t_ast_node	*child;
   nts::t_ast_node	*contain;
@@ -253,7 +253,7 @@ void	Parser::createLine(nts::t_ast_node *root, std::string line) const
 /*
 ** Return parsing tree
 */
-nts::t_ast_node	*Parser::createTree()
+nts::t_ast_node	*nts::Parser::createTree()
 {
   nts::t_ast_node	*root;
   nts::t_ast_node	*last_section;
@@ -265,7 +265,7 @@ nts::t_ast_node	*Parser::createTree()
   root->type = nts::ASTNodeType::DEFAULT;
   while (getline(stream, line))
     {
-      Parser::RemoveCommentaryFromInput(line);
+      nts::Parser::RemoveCommentaryFromInput(line);
       Helper::epurStr(line);
       if (!line.empty() && line[0] == '.')
 	{
@@ -289,7 +289,7 @@ nts::t_ast_node	*Parser::createTree()
 /*
 ** Getter for _input
 */
-std::string const&	Parser::getFeed()
+std::string const&	nts::Parser::getFeed()
 {
   return (_input);
 }
@@ -297,7 +297,7 @@ std::string const&	Parser::getFeed()
 /*
 ** Check input parameters
 */
-bool	Parser::checkInput(nts::t_ast_node const& node) const
+bool	nts::Parser::checkInput(nts::t_ast_node const& node) const
 {
   std::vector<nts::t_ast_node *>::const_iterator	it;
 
@@ -318,7 +318,7 @@ bool	Parser::checkInput(nts::t_ast_node const& node) const
 /*
 ** Check component parameters
 */
-bool	Parser::checkComponent(nts::t_ast_node const& node) const
+bool	nts::Parser::checkComponent(nts::t_ast_node const& node) const
 {
   if (node.value.empty())
     {
@@ -351,7 +351,7 @@ bool	splitLink(nts::t_ast_node& node)
 /*
 ** Check link parameters %s:%d -> %s:%d
 */
-bool		Parser::checkLink(nts::t_ast_node& node) const
+bool		nts::Parser::checkLink(nts::t_ast_node& node) const
 {
   if (splitLink(node) == false)
     return false;
@@ -365,7 +365,7 @@ bool		Parser::checkLink(nts::t_ast_node& node) const
   return false;
 }
 
-void		Parser::dumpTree(nts::t_ast_node *node, size_t depth)
+void		nts::Parser::dumpTree(nts::t_ast_node *node, size_t depth)
 {
   std::vector<nts::t_ast_node *>::iterator	it;
   size_t	i;
