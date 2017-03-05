@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar  1 18:45:53 2017 Victorien Fischer
-// Last update Sun Mar  5 00:16:26 2017 Arnaud WURMEL
+// Last update Sun Mar  5 13:27:01 2017 Arnaud WURMEL
 //
 
 #ifndef __COMPONENT_HPP__
@@ -38,7 +38,7 @@ namespace nts
     virtual nts::Tristate		ComputeOnVSS(size_t) const;
     virtual nts::Tristate		ComputeOnVDD(size_t) const;
     virtual nts::Tristate		ComputeOutput(size_t) = 0;
-    size_t				CheckRecursion(nts::Tristate);
+    static size_t			CheckRecursion(nts::Tristate);
 
   protected:
     std::vector<std::pair<size_t, std::pair<size_t, IComponent *> > >	_links;
